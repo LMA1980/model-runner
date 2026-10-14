@@ -3,15 +3,14 @@
 ## Codename: `diag-tool`
 
 ### Business Logic
-Non-interactive operator CLI tool for rapid benchmarking, model verification, and decision-task evaluation.
+Non-interactive operator CLI tool for rapid benchmarking and model verification.
 
 ### Multi-Stage Delivery
 1. **Stage 1 (Direct Model Evaluation)**:
-   - Standalone execution directly in `k3-engine`.
-   - Direct GGUF loading; benchmarks latency, TTFT, tokens/s, and core placement.
+   - 3 standalone spike binaries in `k3-engine`: `k3-diag-spin`, `k3-diag-futex`, `k3-diag-rayon`.
+   - Direct GGUF loading via zero-copy `mmap`; embedded pure Rust BPE tokenizer.
+   - Unified CLI: `--cluster <both|x100|a100>`, `--threads <n>`, `--cores <mask>`, `--repeat <n>`.
+   - Inputs: `--prompt "..."` or `--file <path>` (OpenAI messages array).
+   - Outputs: Live token streaming + summary table (TTFT, tok/s, repeat statistics) or `--json`.
 2. **Stage 2 (Manager Querying)**:
-   - Interacts with `k3-manager` daemon to request model loading and session dispatch.
-
-### Input Flexibility
-- Plain prompt via `--prompt "..."` for standard generation.
-- Structured JSON via `--file <path>` or stdin for multi-criteria decision models.
+   - Interacts with `k3-manager` daemon via Apache Fury IPC over UDS.
