@@ -1,0 +1,6 @@
+[submodule "code/manager"]
+	path = code/manager
+	url = git@github.com:LMA1980/k3-manager.git
+[submodule "code/engine"]
+	path = code/engine
+	url = git@github.com:LMA1980/k3-engine.git
