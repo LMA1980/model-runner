@@ -1,7 +1,7 @@
-# Specs: Runtime Engine
+# Specs: Runtime Subsystem
 
-Components responsible for heterogeneous execution on K3.
+Components implementing the `k3-engine` model runtime and scheduling.
 
 ## Components
-- [Core Scheduler](scheduler.md): Thread binding and affinity logic.
-- [Inference Worker](worker.md): Execution of RVV-accelerated model kernels.
+- [Core Scheduler](scheduler.md): Thread groups and work-stealing.
+- [Inference Worker](worker.md): RVV 1024-bit & 256-bit compute engine.

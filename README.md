@@ -1,19 +1,20 @@
 # K3 Uber AI Runtime Manager
 
-High-performance AI runtime engine tailored for the SpacemiT K3 RISC-V SoC (16 cores, 32GB RAM).
+Specifications and architectural documentation for the SpacemiT K3 AI platform (16 RISC-V cores, 32GB Unified RAM).
 
-## Key Highlights
-- **Heterogeneous Architecture**:
-  - X100 (OoO, 2.2GHz, 256-bit VLEN): Sessions, API, KV routing.
-  - A100 (InO, 1.8GHz, 1024-bit VLEN): IME & vector tensor kernels.
-- **Unified Memory Data Plane**: Zero-copy token and weight sharing across clusters.
-- **Prompt Isolation**: Exclusive execution cycles; tail-only vector underfill on A100.
-- **Multi-Model Scheduling**: Tiered queues for fast decision models vs heavy generative jobs.
-- **Dual Protocol & MCP**: OpenAI and Claude compatible endpoints.
-- **Broad Format Ingestion**: GGUF, Safetensors, OCI/Ollama, and ONNX.
-- **Operator Diagnostic Tool**: Non-interactive CLI for evaluation and benchmarking.
+## Repository Ecosystem
+Tracked via GitHub Project `model-runner`:
+- `model-runner` (This Repo): Master specifications and architecture.
+- [`k3-manager`](https://github.com/LMA1980/k3-manager): Control plane, sessions, APIs, and diagnostic CLI.
+- [`k3-engine`](https://github.com/LMA1980/k3-engine): Low-level 16-core runtime and vector engine.
+
+## Core Architectural Decisions
+- **Stack**: Pure Rust across all layers.
+- **Process Model**: Dedicated `k3-manager` process + single-binary `k3-engine` with X100/A100 thread groups.
+- **Data Plane**: Zero-copy shared memory ring buffers + UDS control RPC.
+- **Execution Rules**: Strict prompt cycle exclusivity; tail-only A100 underfill.
 
 ## Navigation
 - [Master Plan](PLAN.md)
 - [Features Index](features/index.md)
-- [Specifications Index](specs/index.md)
+- [Specs Index](specs/index.md)

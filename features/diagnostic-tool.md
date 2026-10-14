@@ -3,15 +3,15 @@
 ## Codename: `diag-tool`
 
 ### Business Logic
-A non-interactive operator CLI tool enabling rapid validation, benchmarking, and quality evaluation of models on the K3 runtime.
+Non-interactive operator CLI tool for rapid benchmarking, model verification, and decision-task evaluation.
 
-### Capabilities
-1. **Non-Interactive Execution**:
-   - Single-shot execution via CLI args or piped input.
-   - Outputs structured latency, TTFT (time-to-first-token), and tokens/s metrics.
-2. **Decision Model Evaluation**:
-   - Native support for structured evaluation payloads (e.g., classification, routing, and multi-criteria choice prompts).
-   - Validates accuracy and schema compliance against expected outcomes.
-3. **Specialized Model Testing**:
-   - Tests compact reasoning models (e.g., `tev1`, `nimble`, `0.8B`) vs larger generative models.
-   - Verifies execution correctness on X100 vs A100 cores.
+### Multi-Stage Delivery
+1. **Stage 1 (Direct Model Evaluation)**:
+   - Standalone execution directly in `k3-engine`.
+   - Direct GGUF loading; benchmarks latency, TTFT, tokens/s, and core placement.
+2. **Stage 2 (Manager Querying)**:
+   - Interacts with `k3-manager` daemon to request model loading and session dispatch.
+
+### Input Flexibility
+- Plain prompt via `--prompt "..."` for standard generation.
+- Structured JSON via `--file <path>` or stdin for multi-criteria decision models.
