@@ -1,12 +1,12 @@
-# Spec: Vendor Adapter Interface
+# Spec: Model Source Adapter Interface
 
-## Location: `specs/models/vendor-adapter.md`
+## Location: `specs/models/source-adapter.md`
 
 ### Purpose
-Enables private vendors to supply custom repositories and authenticated sources.
+External adapter interface for pulling weights from external repositories (ADR-019).
 
-### Technical Specification
-- **Interface Protocol**: gRPC or executable CLI contract (`pull`, `list`, `auth`).
-- **Input**: Model URI (e.g., `vendor://org/model-name:tag`), auth credentials.
-- **Output**: Streamed weight blobs or filesystem path after verification.
-- **Security**: Sandboxed execution, TLS 1.3 verification, token-based auth.
+### Protocol Specification
+- Out-of-process sidecar speaking Apache Fory over UDS.
+- Methods: `auth`, `search`, `list`, `pull`.
+- Downloads write to `/var/lib/k3/tmp/` and atomically `rename()` to `blobs/` upon SHA-256 validation (ADR-040).
+- Adapters isolate third-party SDKs and credentials outside the control daemon.

@@ -1,14 +1,17 @@
-# Feature: Model Management & Formats
+# Feature: Model Management & Storage
 
 ## Codename: `model-mgmt`
 
-### Business Logic
-Manage model weights, format ingestion, and vendor repository integrations.
+### Storage Architecture
+- Content-addressed store under `/var/lib/k3/blobs/sha256/<digest>` (ADR-035, ADR-036).
+- Human-browsable symlink hierarchy under `/var/lib/k3/models/`.
+- Manifest records model metadata, architecture recipe, context, and digest.
 
-### Broad Public Format Support
-- **Universal Ingestion**: Support mainstream public formats including GGUF, Safetensors, OCI/Ollama blobs, and ONNX.
-- **Architecture Compatibility Filter**: Accept any format whose layers and tensors can execute on RISC-V RVV / IME. Reject formats requiring incompatible proprietary architectures (e.g., hardcoded CUDA PTX / Metal kernels).
+### Weights & Derivations
+- Weights mapped via `mmap` and strictly `mlock`ed into RAM upon load (ADR-037).
+- Converted/repacked weights (e.g. IME tiles) stored as derived blobs (ADR-038).
 
-### Vendor Adapters & Integrity
-1. **Pluggable Adapters**: CLI/RPC plugins for proprietary/vendor model stores.
-2. **Quantization & Verification**: SHA-256 checks, quantization validation (Q4_K, Q8_0, FP16, BF16, FP8), and layer deduplication.
+### Source Extensions & Lifecycle
+- Out-of-process source extensions pull from Hugging Face, Ollama, and private repos via Fory (ADR-019).
+- Engine capability filter rejects formats/architectures lacking verified recipes (ADR-023).
+- Space reclaimed via `k3-admin store gc` and systemd units (ADR-039, ADR-040).

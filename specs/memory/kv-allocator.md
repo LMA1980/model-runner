@@ -2,14 +2,12 @@
 
 ## Location: `specs/memory/kv-allocator.md`
 
-### Purpose
-Provides dynamic, zero-fragmentation KV cache block management.
+### Architecture & Allocation
+- Operates on memfd shared memory backed by `k3-kv` (ADR-042).
+- Block size: 16 tokens per block.
+- Radix tree prefix index: Keyed on `(project_id, model_id, model_build, tokens)` (ADR-004).
+- Copy-On-Write (COW) for branchings; LRU eviction within model arena (ADR-043).
 
-### Technical Specification
-- **Block Size**: Configurable per model, defaulting to 16 tokens.
-- **Block Table**: Logical-to-physical block table maintained in unified memory.
-- **Allocation Strategy**:
-  - Prefix match using radix tree lookup on token IDs.
-  - Copy-On-Write (COW) for branchings or parallel samples.
-  - LRU eviction of unreferenced blocks when cache budget is reached.
-- **Budgeting**: User-configurable memory ceiling (e.g., up to 20GB of 32GB RAM).
+### Budgeting & Context
+- Sized strictly to `n_ctx * slots` per model placement (ADR-027, ADR-043).
+- Resumption: Tracks committed tokens in shared metadata table (ADR-026).

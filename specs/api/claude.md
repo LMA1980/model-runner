@@ -13,4 +13,5 @@
   - `content_block_stop`
   - `message_delta`
   - `message_stop`
-- **Mapping**: Translates Claude content blocks to canonical prompt structures.
+- **Errors**: Emits 529 `overloaded_error` on queue cap; invalid request on context overflow (ADR-015, ADR-027).
+- **Mapping**: Translates Claude content blocks to canonical `UnifiedPrompt`.

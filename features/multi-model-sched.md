@@ -2,15 +2,15 @@
 
 ## Codename: `multi-model-sched`
 
-### Business Logic
-Orchestrates execution when multiple models (e.g., small decision models and large generative models) coexist on limited K3 RAM.
+### Multi-Model Coexistence
+- Supports concurrent model placements (up to `max_active_models`, default 3) within 32GB RAM (ADR-043).
+- Model core reservations may overlap across clusters (ADR-006).
 
-### Scheduling Strategy
-1. **Tiered Priority Queue**:
-   - Fast-path queue for compact decision models (`tev1`, `nimble`) requiring low latency.
-   - Batched queue for throughput-oriented generative models on A100.
-2. **Resource Coexistence**:
-   - Small decision models (<2GB) remain pinned in X100/RAM for instant routing.
-   - Large models utilize A100 vector units without starving fast decision tasks.
-3. **Preemption & Interleaving**:
-   - Allow quick decision checks to interleave between generation steps without unloading active weights.
+### Scheduling & Arbitration
+- Contested cores time-sliced strictly at forward-pass boundaries (ADR-006).
+- Priority classes: `latency` class passes always preempt `throughput` class passes; weighted fair sharing by measured cost within class (ADR-014).
+- Decision models (`tev1`, `nimble`) serve client requests and act as internal router for `model: auto` (ADR-013).
+
+### Admission & Queuing
+- Bounded FIFO queue per model (default depth 64); wait timeout disabled by default (ADR-015).
+- Over-capacity queues emit 429/529 with `Retry-After`; active queues stream SSE keep-alive comments.

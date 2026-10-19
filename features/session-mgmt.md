@@ -2,20 +2,15 @@
 
 ## Codename: `session-mgmt`
 
-### Business Logic
-Sessions organize continuous conversational state and provide resource boundaries across projects.
+### Tenancy Hierarchy & Isolation
+- Hierarchy: Tenant -> Project -> Session (ADR-001). V1 runs single tenant/project.
+- Sessions never cross project boundaries. Prefix KV blocks shared only within same project (ADR-004).
 
-### Key Concepts
-1. **Conversational Session**:
-   - Represents an ordered sequence of user and assistant interactions.
-   - Maintains continuity across discrete API requests.
-2. **Project Isolation**:
-   - Namespaces sessions by project or tenant.
-   - Guarantees memory budgets and model access permissions per project.
-3. **Long-Lived Memory & Cache**:
-   - Persistent tokenization and prefix KV cache tied to session scopes.
-   - Cuts redundant tokenization and prefill computation across repeated queries.
-4. **State Storage Architecture**:
-   - Active operational state in memory for zero-overhead routing.
-   - Backed by embedded SQLite (`rusqlite`) to persist state across reboots.
-   - Ephemeral expectation: state is not guaranteed to survive version upgrades.
+### Session Identity & State
+- Sessions are implicit: clients send full history; manager matches cached token prefixes (ADR-002).
+- Optional `X-K3-Session` and `X-K3-Project` headers serve as hints and accounting labels.
+
+### Persistence & Resumption
+- Operational state backed by SQLite: metadata + last prompt & result per session for diagnostic replay (ADR-003).
+- Resumable computation survives engine restarts and client disconnects in RAM (ADR-026).
+- Reboot persistence of KV caches deferred to future warm-restart milestone.

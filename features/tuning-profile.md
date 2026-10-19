@@ -2,14 +2,17 @@
 
 ## Codename: `tuning-profile`
 
-### Business Logic
-Balance latency, compute density, and core allocation across models on K3.
+### Operator Authority
+- Operator profile is authoritative over placement, reservations, `n_ctx`, and priority class (ADR-032).
+- Daemon measures online costs solely to suggest recommendations (`k3 tune suggest`) and balance fair time-slicing (ADR-010).
 
-### Prompt Isolation & Tail Underfill
-- **Exclusive Cycle Ownership**: No two prompts share the same execution cycle or vector register space.
-- **Tail Underfill Only**: Underfilled 1024-bit vectors are permitted strictly at the tail of a prompt's batch. Never merge unrelated prompts to fill lanes.
+### Cycle Exclusivity & Tail Underfill
+- Strictly one prompt per forward pass; no cross-prompt batching (ADR-005).
+- Underfill allowed only at the tail of a prompt's sequence.
 
-### Tuning Dimensions
-1. **Compute Target**: Route small models (0.5B-1.5B) to X100 or A100 based on core availability.
-2. **Context Bounds**: Configure `n_ctx` against 32GB RAM to prevent page thrashing.
-3. **Kernel Selection**: Deploy RVV 1.0 / IME kernels with dynamic AVL tail sizing.
+### Profile Attributes
+- `core_reservation`: X100 and A100 core counts (ADR-006).
+- `priority_class`: `latency` (e.g. decision models) or `throughput` (ADR-014).
+- `lend_idle_cores` / `borrow_idle_cores`: Opt-in work-stealing, default off (ADR-030).
+- `n_ctx`: Fixed context window bound (ADR-027).
+- Unprofiled models load with conservative X100-only defaults (ADR-031).

@@ -2,15 +2,14 @@
 
 ## Codename: `distributed-arch`
 
-### Business Logic
-Enables unified operation whether running entirely locally on one K3 or scaled across heterogeneous nodes.
+### Architecture Status
+- **V1 Scope**: Single-K3 Unified Local Mode only (ADR-012). Strict native `riscv64` target.
+- **Future Milestone (m3)**: Multi-node scaling over network RPC, pending hardware availability.
 
-### Topology Modes
-1. **Unified Local Mode**:
-   - All subsystems (Ingress, Session, KV Cache, and Inference) run locally on a single K3 SoC.
-   - Zero IPC overhead via shared memory and local DMA.
-2. **Disaggregated / Multi-Node Mode**:
-   - Control Plane, session history, and KV index reside on an external host (e.g. x86_64 server).
-   - One or more K3 boards act as dedicated A100/X100 compute accelerators over network RPC.
-3. **Pragmatic Scaling**:
-   - No remote memory access (NUMA/RDMA); nodes operate as autonomous worker units.
+### Unified Local Mode (v1)
+- All subsystems (manager, KV holder, engines, extensions) execute on a single K3 SoC.
+- Inter-process communication via UDS (`rkyv` / Fory) and zero-copy shared memory (`memfd`).
+
+### Multi-Node Mode (Future)
+- Disaggregated control plane and remote worker topology.
+- Preserves X100 session residency rules per autonomous worker node.

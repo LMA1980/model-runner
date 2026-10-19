@@ -1,21 +1,17 @@
-# Feature: Dual API & MCP Compatibility
+# Feature: Dual API & Front-End Extensions
 
 ## Codename: `api-compat`
 
-### Business Logic
-Provide transparent interoperability with existing LLM clients and tool ecosystems.
+### Protocol Front-Ends
+- Out-of-process front-end extensions communicating with `k3-manager` via Apache Fory over UDS (ADR-019).
+- **OpenAI Compatibility**: `/v1/models`, `/v1/chat/completions` (streaming SSE & non-streaming).
+- **Anthropic Claude Compatibility**: `/v1/messages` (SSE events, thinking blocks).
 
-### Core Philosophy
-- `k3-manager` operates fundamentally as an IPC daemon; the WebAPI is a modular layer.
-- Web frameworks (Axum, Rocket, etc.) to be spiked for dependency security, lifecycle, and HTTP/3 support.
+### Web Transport
+- Baseline transport: HTTP/1.1; HTTP/2 supported where framework provides it (ADR-021).
+- HTTP/3 retained for future experimentation.
+- Network sandboxing: front-ends are the only components with network namespace access (ADR-041).
 
-### Protocol Support
-1. **OpenAI Compatibility**:
-   - `/v1/models`, `/v1/chat/completions` (streaming SSE & non-streaming), tool calling.
-2. **Anthropic Claude Compatibility**:
-   - `/v1/messages` (streaming SSE & non-streaming), thinking blocks.
-3. **MCP (Model Context Protocol)**:
-   - Pluggable MCP host bridge for models invoking external tools.
-
-### Unification Layer
-- Translates inputs into internal canonical representation (`UnifiedPrompt`).
+### Tools & MCP Status
+- Standard OpenAI/Claude tool calls pass through directly to client; no server-side execution in v1.
+- MCP host integration is deferred to future milestones (ADR-020).

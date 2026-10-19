@@ -2,15 +2,18 @@
 
 ## Codename: `diag-tool`
 
-### Business Logic
-Non-interactive operator CLI tool for rapid benchmarking and model verification.
+### Purpose & Delivery
+Non-interactive CLI for single-model benchmarking and cost baseline profiling (ADR-010).
 
-### Multi-Stage Delivery
-1. **Stage 1 (Direct Model Evaluation)**:
-   - 3 standalone spike binaries in `k3-engine`: `k3-diag-spin`, `k3-diag-futex`, `k3-diag-rayon`.
-   - Direct GGUF loading via zero-copy `mmap`; embedded pure Rust BPE tokenizer.
-   - Unified CLI: `--cluster <both|x100|a100>`, `--threads <n>`, `--cores <mask>`, `--repeat <n>`.
-   - Inputs: `--prompt "..."` or `--file <path>` (OpenAI messages array).
-   - Outputs: Live token streaming + summary table (TTFT, tok/s, repeat statistics) or `--json`.
-2. **Stage 2 (Manager Querying)**:
-   - Interacts with `k3-manager` daemon via Apache Fury IPC over UDS.
+### CLI Capabilities
+- Standalone spikes in `k3-engine`: `k3-diag-spin`, `k3-diag-futex`, `k3-diag-rayon`.
+- Options:
+  - `--cluster <both|x100|a100>`: Target core clusters.
+  - `--split <phase|op|row>`: Cross-cluster work distribution (ADR-009).
+  - `--ime <on|off>`: Toggle SpacemiT IME matrix intrinsics (ADR-034).
+  - `--threads <n>`, `--cores <mask>`, `--repeat <n>`.
+
+### Metrics & Self-Comparison
+- Measures prefill and decode separately against hardware ceilings (ADR-034).
+- Checks bit-identical output at temperature 0 across `--repeat` runs.
+- Emits cost profile JSON (`--json`) consumed by `k3 tune` recommendations (ADR-010, ADR-032).

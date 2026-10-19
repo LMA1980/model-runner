@@ -1,25 +1,18 @@
-# K3 Uber AI runtime manager
+# K3 Uber AI Runtime Manager Intent
 
-1. Be able to execute AI runtime on both the X100 and A100
-2. Be Open AI compatible and Claude compatible
-3. Provide a KV cache
+## Vision & Tenancy
+- Multi-model AI runtime on SpacemiT K3 (X100 + A100).
+- Hierarchy: Tenant -> Project -> Sessions. V1 runs single tenant/project with multi-tenant-ready schemas (ADR-001).
 
-## Able to execute all modern open source AI models
+## Model Execution & Architectures
+- Execute modern open source models: Gemma4, Qwen3.8, etc.
+- Recipes per architecture; minor versions may change algorithms (ADR-023).
 
-- Gemma4
-- GWEN3.8
-- etc.
+## Model Management & Source Adapters
+- Ingest models via external source adapters (ADR-019).
+- Content-addressed storage on NVMe under `/var/lib/k3` (ADR-035, ADR-036).
 
-## The runtime manager allow to manage model
-
-The manager should allow to download model from public source. An external adapter should be
-provided to allow private vendor to implement their own repository.
-
-The manager should allow to fine tune the execution of a model: not all models may be optimzed for
-the A100 and rely on the X100 raw performance. This may include management of the context size and
-KV cache.
-
-## Session management must remain on the X100
-
-The X100 allow more reactive behaviour while the A100 promise better vector capacity.
-
+## Compute & Affinity
+- Session management, routing, and tokenization on X100 (ADR-007, ADR-025).
+- Compute partitioned via cgroups; A100 tested in Stage 1 spikes (ADR-008, ADR-028, ADR-034).
+- Paged KV cache kept in RAM-only KV holder (ADR-016, ADR-042).

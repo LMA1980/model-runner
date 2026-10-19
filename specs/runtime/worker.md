@@ -2,16 +2,11 @@
 
 ## Location: `specs/runtime/worker.md`
 
-### Architecture & Compute Kernels
-- **Target**: Strict native `riscv64` only; no host fallback abstraction overhead.
-- **Kernels**: Unified Vector-Length-Agnostic (VLA) RVV 1.0 loops via dynamic `vsetvli` scaling across 256-bit (X100) and 1024-bit (A100).
-- **Acceleration**: Direct branch to SpacemiT IME matrix intrinsics (`xsmtvdotii`) on A100.
-- **Model Target**: Qwen/LLaMA transformer family; Q4_K_M quantization first.
+### Kernel & Architecture Recipes
+- Strict native `riscv64` target; pure Rust with inline `asm!` RVV 1.0 + IME (ADR-029).
+- Architecture recipes compiled as modular crates (`arch-*`, `kernels-*`) (ADR-024).
 
-### Memory & KV Cache
-- **Weights**: Zero-copy `mmap(MAP_SHARED)` with `madvise(MADV_WILLNEED | MADV_HUGEPAGE)`.
-- **KV Cache**: Direct paged 16-token block allocator in unified memory.
-
-### Prompt Cycle Rules
-- **Cycle Exclusivity**: Tokens for exactly one prompt per execution cycle.
-- **Tail Underfill**: Underfill (`avl < VLMAX`) allowed strictly for prompt tails or decode.
+### Execution & Safety
+- Strict cycle exclusivity: exactly one prompt per forward pass (ADR-005).
+- Weights loaded via `mmap` with `mlock` and `flock(LOCK_SH)` (ADR-037, ADR-040).
+- Committed token checkpoints allow resume after engine restarts (ADR-026).

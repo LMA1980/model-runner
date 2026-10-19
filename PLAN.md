@@ -1,21 +1,19 @@
 # K3 AI Runtime Master Plan
 
 ## 1. Architecture Ecosystem
-Specification repo for SpacemiT K3 AI platform.
-Code lives in `k3-manager` (control plane) and `k3-engine` (runtime).
+- Spec repo: `model-runner`.
+- Control plane: `k3-manager` (IPC daemon, session SQLite state).
+- Compute runtime: `k3-engine` (16-core runtime, VLA RVV loops, IME).
+- Memory holder: `k3-kv` (dedicated KV memfd arena holder).
 
 ## 2. Locked Core Decisions
-- **Stack**: Pure Rust across all layers; strict native `riscv64` target.
-- **IPC**: Apache Fury serialization over UDS + shared memory for bulky tensors.
-- **Compute**: Unified VLA RVV 1.0 loops with A100 IME; Qwen/LLaMA Q4_K_M first.
+- **Stack**: Pure Rust (first-party); strict native `riscv64` target.
+- **IPC**: Apache Fory for external adapters/extensions; rkyv + shared memory for internal daemon IPC (ADR-018, ADR-019).
+- **Compute**: Inline asm RVV 1.0 + IME; track nightly Rust scalable vectors (ADR-029).
 - **Sync**: 3 diagnostic spikes (spin, futex, rayon) with unified CLI.
-- **State**: Active in-memory sessions backed by SQLite for reboot persistence.
+- **Tenancy**: Tenant -> Project -> Session (ADR-001). RAM-only KV holder (ADR-042).
 
-## 3. Roadmap
-1. **Stage 1 (Direct Evaluation)**: 3 sync CLI spikes in `k3-engine` on K3.
-2. **Stage 2 (Manager Integration)**: `k3-manager` IPC daemon + Fury + search/pull.
-3. **Stage 3 (Ecosystem)**: Modular WebAPI (HTTP/3 spike), OpenAI/Claude, MCP host.
-
-## Navigation
-- [Features](features/index.md)
-- [Specs](specs/index.md)
+## 3. Roadmap & Milestones ([User Stories](user-story/index.md))
+- **M1 (Core Evaluation & Profiling)**: [M1 Stories](user-story/milestone-01.us-index.md) - `k3-diag` Stage 1 spikes, cluster benchmarking, and isolated IPC domains.
+- **M2 (Multi-Model Runtime & Memory)**: [M2 Stories](user-story/milestone-02.us-index.md) - Tuning profiles, priority scheduling, KV arenas, and crash resumption.
+- **M3 (Storage & External Protocols)**: [M3 Stories](user-story/milestone-03.us-index.md) - Content-addressed store, GC, and Fory source/front-end extensions.
