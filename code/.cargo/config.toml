@@ -1,0 +1,4 @@
+# Native RISC-V 64-bit build configuration for the SpacemiT K3 platform (ADR-029).
+# Enables RVV 1.0 vector extension instructions (+v) when targeting riscv64gc-unknown-linux-gnu.
+[target.riscv64gc-unknown-linux-gnu]
+rustflags = ["-C", "target-feature=+v"]
