@@ -3,8 +3,15 @@
 version = 4
 
 [[package]]
+name = "k3-core"
+version = "0.1.0"
+
+[[package]]
 name = "k3-engine"
 version = "0.1.0"
+dependencies = [
+ "k3-core",
+]
 
 [[package]]
 name = "k3-manager"

@@ -4,3 +4,6 @@
 [submodule "code/engine"]
 	path = code/engine
 	url = git@github.com:LMA1980/k3-engine.git
+[submodule "code/core"]
+	path = code/core
+	url = git@github.com:LMA1980/k3-core.git

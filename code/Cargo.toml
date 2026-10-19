@@ -1,9 +1,13 @@
 [workspace]
 resolver = "2"
 members = [
+    "core",
     "engine",
     "manager",
 ]
+
+[workspace.dependencies]
+k3-core = { path = "core" }
 
 [workspace.package]
 version = "0.1.0"
