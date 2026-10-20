@@ -2,3 +2,7 @@
 # Enables RVV 1.0 vector extension instructions (+v) when targeting riscv64gc-unknown-linux-gnu.
 [target.riscv64gc-unknown-linux-gnu]
 rustflags = ["-C", "target-feature=+v"]
+runner = "../scripts/k3-runner.sh"
+
+[alias]
+k3-test = "test --target riscv64gc-unknown-linux-gnu"
