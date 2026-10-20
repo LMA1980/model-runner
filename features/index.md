@@ -3,6 +3,7 @@
 Feature business logic for K3 AI Runtime Manager.
 
 ## Features List
+
 - [Operator Diagnostic Tool](diagnostic-tool.md): Isolated testing, --split, --ime.
 - [Session & Project Isolation](session-mgmt.md): Multi-turn state, persistence.
 - [Heterogeneous Affinity](core-affinity.md): X100 control vs compute allocation.
@@ -15,4 +16,5 @@ Feature business logic for K3 AI Runtime Manager.
 - [Performance Tuning](tuning-profile.md): Operator profiles, recommendations.
 
 ## Constraints
+
 All feature docs must remain strictly under 1000 characters.

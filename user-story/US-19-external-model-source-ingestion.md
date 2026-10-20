@@ -8,17 +8,20 @@
 - **Related ADRs**: [ADR-019](../decisions/ADR-019-extensions.md), [ADR-040](../decisions/ADR-040-gc-safety.md), [ADR-041](../decisions/ADR-041-isolation-domains.md)
 
 ## Narrative
+
 **As a** System Operator,
 **I want** to authenticate, search, list, and pull models from external repositories (such as Hugging Face, Ollama, or private registries) through isolated source extensions that validate digests before atomic store promotion,
 **So that** third-party repository credentials and network access remain isolated from the core runtime and interrupted downloads never corrupt the model store.
 
 ## Business Context & Domain Rules
+
 - External model hubs evolve their APIs, authentication schemes, and SDKs independently of the core runtime.
 - Source adapters operate as isolated extensions that hold external network access and repository credentials outside the core control and compute domains.
 - Every source extension supports a standard lifecycle contract: authentication (`auth`), repository search (`search`), version listing (`list`), and weight acquisition (`pull`).
 - Incoming downloads are written to a staging area first and promoted atomically into the content-addressed store only after their cryptographic digest and integrity are verified.
 
 ## Core System Assertions
+
 - **Scenario 1: External repository search and pull via source extension**
   - **Given** a configured source extension for an external model repository,
   - **When** an operator searches for a model and initiates a pull,

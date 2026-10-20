@@ -8,17 +8,20 @@
 - **Related ADRs**: [ADR-013](../decisions/ADR-013-decision-models.md), [ADR-014](../decisions/ADR-014-priority.md)
 
 ## Narrative
+
 **As an** AI Application Developer / Client,
 **I want** to submit requests targeting either a specific lightweight decision model directly or an automatic routing target (`model: auto`) that uses an internal decision model to select the optimal loaded model,
 **So that** simple classification/routing queries run at minimal latency and complex prompts are automatically directed to the best-suited specialist model on the board.
 
 ## Business Context & Domain Rules
+
 - Lightweight decision models (such as `tev1` or `nimble`) serve a dual role in the runtime:
   1. Direct inference endpoints for client classification, intent detection, or fast utility tasks.
-  2. Internal routers invoked automatically on the critical path when a client specifies `model: auto`.
+  1. Internal routers invoked automatically on the critical path when a client specifies `model: auto`.
 - When acting as an internal router, the decision model evaluates the incoming prompt against the capabilities of currently loaded models and dispatches the request to the selected target model.
 
 ## Core System Assertions
+
 - **Scenario 1: Direct client invocation of a decision model**
   - **Given** a lightweight decision model is loaded and active on the runtime,
   - **When** a client submits a completion request explicitly naming that decision model,

@@ -8,16 +8,19 @@
 - **Related ADRs**: [ADR-006](../decisions/ADR-006-exclusivity-unit.md), [ADR-007](../decisions/ADR-007-control-plane-cores.md)
 
 ## Narrative
+
 **As a** Runtime Engineer,
 **I want to** evaluate identical model workloads across distinct multi-core coordination strategies over repeated runs,
 **So that** I can measure synchronization overhead, latency variance, and compute utilization across cores and select the most deterministic execution strategy for the hardware.
 
 ## Business Context & Domain Rules
+
 - Multi-core AI inference requires frequent coordination barriers between layers and operations; excessive barrier wait times or thread wake-up jitter directly degrade token generation throughput.
 - On heterogeneous multi-core boards (such as the 16-core SpacemiT K3 reference platform or smaller multi-core configurations), different coordination strategies trade off idle power against barrier responsiveness.
 - Candidate coordination strategies must be evaluated using identical model weights, prompts, and core allocations to ensure an objective comparison.
 
 ## Core System Assertions
+
 - **Scenario 1: Comparative synchronization overhead measurement**
   - **Given** multiple candidate multi-core coordination profiles configured with identical model weights, input prompt, and core allocation,
   - **When** the operator executes a diagnostic benchmark across each coordination profile,

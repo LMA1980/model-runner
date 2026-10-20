@@ -3,9 +3,11 @@
 ## Location: `specs/api/claude.md`
 
 ### Endpoints
+
 - `POST /v1/messages`: Claude messages protocol.
 
 ### Protocol Details
+
 - **Streaming**: Anthropic SSE event types:
   - `message_start`
   - `content_block_start`

@@ -8,16 +8,19 @@
 - **Related ADRs**: [ADR-030](../decisions/ADR-030-spillover.md), [ADR-032](../decisions/ADR-032-tuning-authority.md), [ADR-041](../decisions/ADR-041-isolation-domains.md)
 
 ## Narrative
+
 **As a** System Operator,
 **I want** to selectively opt models into lending or borrowing idle compute cores on a per-forward-pass basis with guaranteed pass-boundary reclamation,
 **So that** active models can accelerate generation using otherwise idle board capacity while immediately returning those cores as soon as their reserved owner needs them.
 
 ## Business Context & Domain Rules
+
 - Under strict reservation boundaries, compute cores assigned to an idle model sit unused even when another active model could use them.
 - Dynamic spillover (work-stealing) is strictly opt-in per model via two independent operator profile settings—permission to lend idle cores (`lend_idle_cores`) and permission to borrow idle cores (`borrow_idle_cores`)—both disabled by default to preserve baseline determinism.
 - Borrowed cores are granted for a single forward pass at a time and reclaimed cleanly at the next pass boundary without interrupting an in-flight pass or incurring runtime reconfiguration stalls.
 
 ## Core System Assertions
+
 - **Scenario 1: Default isolation when lending or borrowing is disabled**
   - **Given** Model A with idle reserved cores and Model B actively executing requests, where either Model A has not opted into lending or Model B has not opted into borrowing,
   - **When** Model B executes forward passes,

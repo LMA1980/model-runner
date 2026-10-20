@@ -8,11 +8,13 @@
 - **Related ADRs**: [ADR-026](../decisions/ADR-026-resumable-computation.md), [ADR-042](../decisions/ADR-042-kv-holder.md)
 
 ## Narrative
+
 **As an** Operator / AI Application Client,
 **I want** active context state, committed tokens, and sampler state to survive compute worker crashes, control service restarts, and temporary client disconnects in active memory,
 **So that** interrupted long-running generations resume seamlessly from the last committed token without re-running expensive prompt prefill or already-generated tokens.
 
 ## Business Context & Domain Rules
+
 - On edge and local hardware, long prompt prefills and multi-hundred-token reasoning generations represent significant compute investment.
 - Holding active context memory in a dedicated, minimal, policy-free memory holder independent of both the compute workers and the control service ensures that neither a worker fault nor a control restart destroys in-flight context state.
 - As each token is generated, the runtime checkpoints the committed token count and deterministic sampler state alongside the context blocks.
@@ -20,6 +22,7 @@
 - If a client disconnects mid-response and reconnects with the same prompt, it picks up the in-flight or completed generation rather than starting over.
 
 ## Core System Assertions
+
 - **Scenario 1: Seamless decode resumption after compute worker crash**
   - **Given** a model is mid-way through generating a multi-token response after completing prompt prefill,
   - **When** the model's compute worker crashes and is restarted by the supervisor,

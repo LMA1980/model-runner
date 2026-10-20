@@ -8,11 +8,13 @@
 - **Related ADRs**: [ADR-001](../decisions/ADR-001-tenancy.md), [ADR-002](../decisions/ADR-002-session-identity.md), [ADR-004](../decisions/ADR-004-prefix-cache-scope.md)
 
 ## Narrative
+
 **As an** AI Application Developer,
 **I want** the runtime to organize workloads under a `Tenant -> Project -> Session` hierarchy and automatically reuse cached prompt prefixes across stateless requests within the same project while prohibiting cross-project cache sharing,
 **So that** multi-turn conversations and shared system prompts skip redundant prefill computation without requiring stateful client session IDs or leaking context timing across projects.
 
 ## Business Context & Domain Rules
+
 - External AI client protocols are typically stateless: clients resend the full conversation transcript on each turn without a mandatory session identifier.
 - The runtime establishes session continuity implicitly by matching tokenized request prefixes against cached context blocks keyed by `(project, model, model_build, token_prefix)`.
 - Optional session and project request headers serve as routing hints and accounting labels rather than mandatory state tokens.
@@ -20,6 +22,7 @@
 - Across different projects, context caches are strictly isolated: even identical system prompts are never shared across project boundaries, eliminating cross-project timing side-channels and ensuring multi-tenant readiness from day one.
 
 ## Core System Assertions
+
 - **Scenario 1: Implicit multi-turn prefix reuse for stateless clients**
   - **Given** a client in Project A completes a conversation turn and subsequently sends a follow-up request containing the prior conversation history plus a new user message,
   - **When** the runtime tokenizes the follow-up request,

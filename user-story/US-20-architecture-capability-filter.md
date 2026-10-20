@@ -8,16 +8,19 @@
 - **Related ADRs**: [ADR-017](../decisions/ADR-017-formats.md), [ADR-023](../decisions/ADR-023-architecture-onboarding.md), [ADR-024](../decisions/ADR-024-architecture-kernel-extensions.md), [ADR-025](../decisions/ADR-025-tokenizer-ownership.md)
 
 ## Narrative
+
 **As a** System Operator,
 **I want** the runtime to validate model formats and exact architecture revisions against its supported execution recipes during registry search and model loading,
 **So that** incompatible models or minor model revisions that introduce unsupported algorithms are caught immediately with clear diagnostics rather than failing unpredictably during inference.
 
 ## Business Context & Domain Rules
+
 - Modern open-source model families frequently introduce algorithmic changes—not just new weights—across minor version releases (for example, between major and minor revisions of Qwen or Gemma families).
 - Each supported model architecture and minor algorithmic revision is paired with an explicit execution recipe and matching tokenizer/template definition so control-plane tokenization and worker execution can never drift apart.
 - While the store supports universal ingestion of standard weight formats, the runtime capability filter inspects each model's declared architecture metadata and refuses to load or schedule any model whose architecture revision lacks a verified execution recipe.
 
 ## Core System Assertions
+
 - **Scenario 1: Capability filtering during model search and inspection**
   - **Given** an operator searches external sources or inspects local registry manifests,
   - **When** candidate models are listed,

@@ -8,11 +8,13 @@
 - **Related ADRs**: [ADR-016](../decisions/ADR-016-memory-tier.md), [ADR-027](../decisions/ADR-027-context-window.md), [ADR-037](../decisions/ADR-037-weight-residency.md), [ADR-043](../decisions/ADR-043-per-model-isolation.md)
 
 ## Narrative
+
 **As a** System Operator / AI Application Developer,
 **I want** each loaded model placement to operate within a strictly isolated, pre-reserved memory arena sized to its configured context window and concurrency slots, and to reject oversize prompts explicitly without silent truncation,
 **So that** no model can ever burst into another model's memory or trigger system-wide out-of-memory failures, and clients always know when a prompt exceeds the configured context limit.
 
 ## Business Context & Domain Rules
+
 - All loaded model weights, derived layouts, control overhead, and active context caches share the board's unified physical memory (e.g., 32 GB on the SpacemiT K3 reference board, or smaller pools on lower-memory boards).
 - By construction, no model placement may encroach on another model's memory:
   - Each model placement defines a fixed context window bound (`n_ctx`), capped by the model's trained maximum.
@@ -21,6 +23,7 @@
 - If a client request (prompt plus requested generation budget) exceeds the model's configured `n_ctx`, the runtime immediately returns an explicit context-length-exceeded error and never silently truncates the prompt.
 
 ## Core System Assertions
+
 - **Scenario 1: Load-time memory admission enforcement**
   - **Given** available unified memory on the host board and one or more already-loaded models,
   - **When** an operator attempts to load a model whose combined weight footprint and pre-reserved context arena (`n_ctx × active slots`) exceed remaining memory capacity,

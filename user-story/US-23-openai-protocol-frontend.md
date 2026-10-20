@@ -8,11 +8,13 @@
 - **Related ADRs**: [ADR-015](../decisions/ADR-015-admission-queue.md), [ADR-019](../decisions/ADR-019-extensions.md), [ADR-020](../decisions/ADR-020-mcp.md), [ADR-021](../decisions/ADR-021-http.md), [ADR-027](../decisions/ADR-027-context-window.md), [ADR-031](../decisions/ADR-031-unprofiled-models.md), [ADR-041](../decisions/ADR-041-isolation-domains.md)
 
 ## Narrative
+
 **As an** AI Application Developer,
 **I want** to connect standard OpenAI-compatible SDKs and client applications to the runtime for model discovery, chat completions, real-time token streaming, and pass-through tool calling via a network-isolated front-end extension,
 **So that** existing OpenAI-based applications and agent workflows run against local models without code changes while the core runtime remains completely isolated from external networks.
 
 ## Business Context & Domain Rules
+
 - External client protocols are owned by third parties and served through isolated front-end extensions that are the only components permitted to access external network interfaces; the core scheduler, compute workers, and model store have no network access.
 - The OpenAI-compatible front-end exposes:
   - Model listing (`/v1/models`), returning loaded models and explicitly tagging any model running under an unprofiled default configuration.
@@ -22,6 +24,7 @@
 - Queue capacity exhaustion returns HTTP `429` with a `Retry-After` header, and prompts exceeding the model's context window return `context_length_exceeded`.
 
 ## Core System Assertions
+
 - **Scenario 1: Streaming and non-streaming chat completions**
   - **Given** an OpenAI-compatible client application connected to the front-end extension,
   - **When** the client sends a chat completion request in either streaming or non-streaming mode,

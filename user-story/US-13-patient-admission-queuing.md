@@ -8,11 +8,13 @@
 - **Related ADRs**: [ADR-005](../decisions/ADR-005-prompt-exclusivity.md), [ADR-015](../decisions/ADR-015-admission-queue.md)
 
 ## Narrative
+
 **As an** AI Application Client,
 **I want** concurrent requests that arrive while a model is busy to wait patiently in a deep per-model queue with periodic keep-alive and queue-position updates rather than being cut off by arbitrary quotas or premature timeouts,
 **So that** bursty workloads reliably complete on local hardware without client connection drops or artificial usage throttling.
 
 ## Business Context & Domain Rules
+
 - Because the runtime enforces single-prompt cycle exclusivity for determinism, concurrent requests to the same model queue in First-In, First-Out (FIFO) order.
 - The system prioritizes **patience over rejection**:
   - Each model maintains a deep, configurable admission queue (default depth 64).
@@ -22,6 +24,7 @@
 - Only when an operator-configured queue depth cap is reached does the runtime reject additional incoming requests with an explicit overload status and a recommended retry delay.
 
 ## Core System Assertions
+
 - **Scenario 1: Patient FIFO queuing with keep-alive and queue-position updates**
   - **Given** a model is actively executing a request and its admission queue is below its configured depth cap,
   - **When** additional streaming client requests arrive for that model,

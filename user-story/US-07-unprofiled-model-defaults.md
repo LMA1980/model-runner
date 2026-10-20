@@ -8,17 +8,20 @@
 - **Related ADRs**: [ADR-028](../decisions/ADR-028-a100-premise.md), [ADR-031](../decisions/ADR-031-unprofiled-models.md)
 
 ## Narrative
+
 **As a** System Operator,
 **I want** newly pulled models that lack a diagnostic cost profile to load using a conservative, safe default placement and be visibly flagged as unprofiled,
 **So that** untested models can be served immediately without risking severe performance degradation or memory exhaustion while reminding me to profile and tune them.
 
 ## Business Context & Domain Rules
+
 - Freshly acquired models do not yet have empirical hardware cost baselines or custom placement rules.
 - Placing an unprofiled model onto specialized or unverified compute clusters or granting it a large context allocation risks degraded token rates or memory contention.
 - The system assigns every unprofiled model a conservative default profile: general-purpose compute cluster placement only, standard throughput priority class, a conservative context window bound, and dynamic core lending/borrowing disabled.
 - Unprofiled status is surfaced in model registry listings and operational logs until an operator explicitly applies a tuning profile.
 
 ## Core System Assertions
+
 - **Scenario 1: Conservative placement on initial model load**
   - **Given** a newly ingested model that has no associated diagnostic cost profile or operator tuning profile,
   - **When** the model is loaded into the runtime,

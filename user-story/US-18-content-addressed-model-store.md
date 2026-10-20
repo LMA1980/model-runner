@@ -8,11 +8,13 @@
 - **Related ADRs**: [ADR-035](../decisions/ADR-035-store-layout.md), [ADR-036](../decisions/ADR-036-store-location.md)
 
 ## Narrative
+
 **As a** System Administrator / Operator,
 **I want** model weights to reside in a configurable, content-addressed store deduplicated by cryptographic digest alongside structured manifests and a human-browsable hierarchy,
 **So that** identical weights acquired from multiple sources are stored only once, bulk model assets can be placed on dedicated high-capacity storage rather than primary boot media, and operators can inspect models intuitively.
 
 ## Business Context & Domain Rules
+
 - Edge boards often pair smaller primary boot storage with optional high-capacity secondary storage (for example, the SpacemiT K3 Pico-ITX reference platform pairs onboard flash with an M.2 SSD, while other boards may use different storage tiers).
 - The model store root location is configurable so operators can direct bulk model assets to their preferred storage tier.
 - Every weight artifact is stored by its cryptographic content digest, guaranteeing automatic deduplication when the same model weights are referenced across different tags or external sources.
@@ -20,6 +22,7 @@
 - A model build's canonical identity combines the weight digest and the active architecture recipe version.
 
 ## Core System Assertions
+
 - **Scenario 1: Cross-source weight deduplication**
   - **Given** a model weight file already stored in the registry from Source A,
   - **When** an operator registers or pulls an identical weight file (matching cryptographic digest) from Source B or under a new tag,

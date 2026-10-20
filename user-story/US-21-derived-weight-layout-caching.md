@@ -8,11 +8,13 @@
 - **Related ADRs**: [ADR-037](../decisions/ADR-037-weight-residency.md), [ADR-038](../decisions/ADR-038-derived-weights.md)
 
 ## Narrative
+
 **As a** System Operator,
 **I want** hardware-repacked or format-converted model weights to be cached on storage as derived artifacts keyed by source digest, recipe version, and target layout—with configurable retention of original weights and automatic detection of stale derivations after runtime upgrades,
 **So that** models do not pay conversion overhead on every load, storage consumption matches my retention policy, and breaking recipe updates never silently use outdated weight layouts.
 
 ## Business Context & Domain Rules
+
 - Certain weight formats or specialized hardware matrix accelerators require weights to be converted or repacked into hardware-specific tile layouts before execution.
 - Converted or repacked weights are stored as **derived blobs** keyed by `(source weight digest, architecture recipe version, target kernel layout)`.
 - The operator controls original-weight retention policy after a derived layout is created: keep the original source blob indefinitely, purge it immediately, or purge it after a configured delay.
@@ -20,6 +22,7 @@
 - When a runtime update introduces a breaking change to an architecture recipe or kernel layout, existing derived blobs built for the older version are flagged as stale, and if the original source blob was previously purged, the operator is prompted to re-acquire the source model.
 
 ## Core System Assertions
+
 - **Scenario 1: Reuse of cached derived weight layouts across loads**
   - **Given** a model whose weights have been converted or repacked into a hardware-optimized derived blob for the current recipe and layout version,
   - **When** the model is unloaded and subsequently reloaded on the same runtime version,

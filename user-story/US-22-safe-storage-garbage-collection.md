@@ -8,19 +8,22 @@
 - **Related ADRs**: [ADR-039](../decisions/ADR-039-disk-lifecycle.md), [ADR-040](../decisions/ADR-040-gc-safety.md)
 
 ## Narrative
+
 **As a** System Administrator / Operator,
 **I want** model removal to unlink only manifest references while a dedicated garbage collection workflow safely reclaims unreferenced or stale weight blobs only after verifying no active or offline worker is using them,
 **So that** storage reclamation never deletes weights mapped by a running model or triggers unexpected deletions during production traffic.
 
 ## Business Context & Domain Rules
+
 - Model weight blobs, derived layouts, and purged originals accumulate on storage over time, and operators require predictable, site-specific storage lifecycle policies.
 - Removing a model removes its manifest and human-browsable alias; underlying weight blobs are reference-counted and deleted only by explicit or scheduled garbage collection (GC).
 - Exceeding a configured storage high-water mark emits an operational warning only; the system never automatically deletes model blobs on storage thresholds without operator-configured GC execution.
 - Before deleting any unreferenced or stale blob, garbage collection enforces two mandatory safety checks that work even if the control service is offline:
   1. Verifying that no running worker holds an active shared lock on the blob.
-  2. Scanning active worker memory mappings to confirm no compute process currently maps the blob, and exposing an administrative query to inspect which processes use any given blob.
+  1. Scanning active worker memory mappings to confirm no compute process currently maps the blob, and exposing an administrative query to inspect which processes use any given blob.
 
 ## Core System Assertions
+
 - **Scenario 1: Reference-counted manifest removal without immediate blob destruction**
   - **Given** a weight blob referenced by two different model tags,
   - **When** the operator removes one of the model tags and runs garbage collection,
