@@ -16,6 +16,7 @@ k3-engine = { path = "engine" }
 k3-tokenizer = { path = "engine/crates/k3-tokenizer" }
 kernels-rvv = { path = "engine/crates/kernels-rvv" }
 arch-synthetic = { path = "engine/crates/arch-synthetic" }
+libc = "0.2"
 
 [workspace.package]
 version = "0.1.0"
