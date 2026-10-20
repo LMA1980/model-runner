@@ -12,6 +12,6 @@
 - Converted/repacked weights (e.g. IME tiles) stored as derived blobs (ADR-038).
 
 ### Source Extensions & Lifecycle
-- Out-of-process source extensions pull from Hugging Face, Ollama, and private repos via Fory (ADR-019).
+- Out-of-process source extensions pull from Hugging Face, Ollama, and private repos via Apache Arrow IPC (ADR-019).
 - Engine capability filter rejects formats/architectures lacking verified recipes (ADR-023).
 - Space reclaimed via `k3-admin store gc` and systemd units (ADR-039, ADR-040).

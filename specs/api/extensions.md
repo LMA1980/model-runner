@@ -5,7 +5,7 @@
 ### Extension Model
 - All extensions run out-of-process in `k3-ext@<name>.service` units (ADR-019, ADR-041).
 - Only extensions possess network namespace access.
-- Inter-process contract: Apache Fory serialization over Unix Domain Sockets.
+- Inter-process contract: Apache Arrow IPC serialization over Unix Domain Sockets.
 
 ### Extension Roles
 1. **Front-End Extensions**:

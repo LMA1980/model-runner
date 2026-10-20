@@ -3,7 +3,7 @@
 ## Codename: `api-compat`
 
 ### Protocol Front-Ends
-- Out-of-process front-end extensions communicating with `k3-manager` via Apache Fory over UDS (ADR-019).
+- Out-of-process front-end extensions communicating with `k3-manager` via Apache Arrow IPC over UDS (ADR-019).
 - **OpenAI Compatibility**: `/v1/models`, `/v1/chat/completions` (streaming SSE & non-streaming).
 - **Anthropic Claude Compatibility**: `/v1/messages` (SSE events, thinking blocks).
 

@@ -10,7 +10,7 @@ Tracked via GitHub Project `model-runner`:
 
 ## Core Architecture
 - **Isolation**: systemd cgroup v2 slices (`k3.slice`: control, compute, kv, edge) (ADR-041).
-- **IPC**: Internal rkyv over UDS + memfd shared memory; Apache Fory for out-of-process extensions (ADR-018, ADR-019).
+- **IPC**: Internal rkyv over UDS + memfd shared memory; Apache Arrow for out-of-process extensions (ADR-018, ADR-019).
 - **Execution**: Strict one prompt per forward pass; operator tuning authority (ADR-005, ADR-032).
 - **Storage**: Content-addressed store at `/var/lib/k3` with `k3-admin` GC (ADR-035, ADR-039).
 
