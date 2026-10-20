@@ -1,5 +1,5 @@
 version: "1"
-name: "K3 Specification & Documentation PR CI"
+name: "K3 Pull Request Build, Test & Benchmark Validation"
 
 env:
   CARGO_TERM_COLOR: always
@@ -9,6 +9,22 @@ steps:
     run: "./scripts/format_docs.sh --check"
     timeout_seconds: 300
 
-  - name: "Verify Architectural Index Integrity"
-    run: "test -f decisions/index.md && test -f specs/index.md && test -f features/index.md && test -f user-story/index.md"
-    timeout_seconds: 60
+  - name: "Verify Rust Formatting & Lints"
+    working_dir: "code"
+    run: "cargo fmt --check && cargo clippy --workspace --all-targets -- -D warnings"
+    timeout_seconds: 300
+
+  - name: "Compile Workspace Release"
+    working_dir: "code"
+    run: "cargo build --workspace --release"
+    timeout_seconds: 600
+
+  - name: "Execute Unit & Integration Test Suite"
+    working_dir: "code"
+    run: "cargo test --workspace --release"
+    timeout_seconds: 600
+
+  - name: "Verify Benchmarks Compilation"
+    working_dir: "code"
+    run: "cargo bench --workspace --no-run"
+    timeout_seconds: 600

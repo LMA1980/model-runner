@@ -1,0 +1,31 @@
+version: "1"
+name: "K3 Merge Integration & Local Artifact Publish"
+
+env:
+  CARGO_TERM_COLOR: always
+
+steps:
+  - name: "Build Workspace Release"
+    working_dir: "code"
+    run: "cargo build --workspace --release"
+    timeout_seconds: 600
+
+  - name: "Execute Full Test Suite"
+    working_dir: "code"
+    run: "cargo test --workspace --release"
+    timeout_seconds: 600
+
+  - name: "Execute Benchmarks"
+    working_dir: "code"
+    run: "cargo bench --workspace --no-run"
+    timeout_seconds: 600
+
+  - name: "Publish Artifacts Locally"
+    working_dir: "code"
+    run: |
+      mkdir -p /home/lma1980/repository/dist/local/bin
+      if [ -d target/release ]; then
+        find target/release -maxdepth 1 -type f -executable -exec cp -v {} /home/lma1980/repository/dist/local/bin/ \;
+      fi
+      echo "Local build published to /home/lma1980/repository/dist/local/bin"
+    timeout_seconds: 120

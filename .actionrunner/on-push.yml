@@ -1,5 +1,5 @@
 version: "1"
-name: "K3 Specification & Documentation CI"
+name: "K3 Code Hygiene & Specification CI"
 
 env:
   CARGO_TERM_COLOR: always
@@ -12,3 +12,18 @@ steps:
   - name: "Verify Architectural Index Integrity"
     run: "test -f decisions/index.md && test -f specs/index.md && test -f features/index.md && test -f user-story/index.md"
     timeout_seconds: 60
+
+  - name: "Verify Rust Formatting (cargo fmt)"
+    working_dir: "code"
+    run: "cargo fmt --check"
+    timeout_seconds: 120
+
+  - name: "Verify Rust Linter & Clippy Rules (cargo clippy)"
+    working_dir: "code"
+    run: "cargo clippy --workspace --all-targets -- -D warnings"
+    timeout_seconds: 300
+
+  - name: "Verify Dependencies Security Advisories (cargo audit)"
+    working_dir: "code"
+    run: "cargo audit"
+    timeout_seconds: 180

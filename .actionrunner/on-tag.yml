@@ -1,0 +1,38 @@
+version: "1"
+name: "K3 Official Tag Release & Packaging"
+
+env:
+  CARGO_TERM_COLOR: always
+
+steps:
+  - name: "Create Release Branch"
+    run: |
+      echo "Branching off for release: release/${K3_TAG_NAME:-tag}"
+      git checkout -B "release/${K3_TAG_NAME:-tag}"
+    timeout_seconds: 60
+
+  - name: "Generate Release Notes & Changelog"
+    run: |
+      PREV_TAG=$(git describe --tags --abbrev=0 HEAD^ 2>/dev/null || git rev-list --max-parents=0 HEAD)
+      echo "# Release ${K3_TAG_NAME:-draft}" > RELEASE_NOTES.md
+      echo "Generated on $(date -u)" >> RELEASE_NOTES.md
+      echo "" >> RELEASE_NOTES.md
+      echo "## Changes" >> RELEASE_NOTES.md
+      git log ${PREV_TAG}..HEAD --pretty=format:"* %s (%h by @%an)" >> RELEASE_NOTES.md
+      cat RELEASE_NOTES.md
+    timeout_seconds: 60
+
+  - name: "Build Release Binaries"
+    working_dir: "code"
+    run: "cargo build --workspace --release"
+    timeout_seconds: 600
+
+  - name: "Package Official Release Archive"
+    run: |
+      DIST_DIR="/home/lma1980/repository/dist/releases/${K3_TAG_NAME:-draft}"
+      mkdir -p "$DIST_DIR"
+      ARCHIVE_NAME="k3-${K3_TAG_NAME:-draft}-riscv64.tar.gz"
+      tar -czf "${DIST_DIR}/${ARCHIVE_NAME}" -C code/target/release $(find code/target/release -maxdepth 1 -type f -executable -printf "%f " 2>/dev/null) RELEASE_NOTES.md 2>/dev/null || tar -czf "${DIST_DIR}/${ARCHIVE_NAME}" RELEASE_NOTES.md
+      cd "$DIST_DIR" && sha256sum "${ARCHIVE_NAME}" > "${ARCHIVE_NAME}.sha256"
+      echo "Release package created: ${DIST_DIR}/${ARCHIVE_NAME}"
+    timeout_seconds: 180
