@@ -1,0 +1,14 @@
+version: "1"
+name: "K3 Specification & Documentation PR CI"
+
+env:
+  CARGO_TERM_COLOR: always
+
+steps:
+  - name: "Verify Markdown Specification Formatting (mdformat)"
+    run: "./scripts/format_docs.sh --check"
+    timeout_seconds: 300
+
+  - name: "Verify Architectural Index Integrity"
+    run: "test -f decisions/index.md && test -f specs/index.md && test -f features/index.md && test -f user-story/index.md"
+    timeout_seconds: 60
