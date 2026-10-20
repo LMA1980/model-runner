@@ -10,14 +10,14 @@ steps:
     run: "cargo build --workspace --release"
     timeout_seconds: 600
 
-  - name: "Execute Full Test Suite"
+  - name: "Evaluate Test Suite & Line Code Coverage (cargo llvm-cov)"
     working_dir: "code"
-    run: "cargo test --workspace --release"
-    timeout_seconds: 600
+    run: "cargo llvm-cov --workspace --release --summary-only"
+    timeout_seconds: 300
 
-  - name: "Execute Benchmarks"
+  - name: "Execute Native Micro-Benchmarks (cargo bench)"
     working_dir: "code"
-    run: "cargo bench --workspace --no-run"
+    run: "cargo bench --workspace"
     timeout_seconds: 600
 
   - name: "Publish Artifacts Locally"
