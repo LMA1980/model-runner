@@ -7,7 +7,7 @@
 
 <p align="center">
   <a href="https://hook.lma1980.duckdns.org/jobs">
-    <img src="https://hook.lma1980.duckdns.org/cards/LMA1980/model-runner/main/card.svg" alt="K3 Native CI Factory Pipeline Score Card" />
+    <img src="https://hook.lma1980.duckdns.org/cards/LMA1980/model-runner/main/card.svg?v=1" alt="K3 Native CI Factory Pipeline Score Card" />
   </a>
 </p>
 
