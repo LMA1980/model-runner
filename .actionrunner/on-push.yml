@@ -1,5 +1,5 @@
 version: "1"
-name: "K3 Code Hygiene & Specification CI"
+name: "K3 Factory Pipeline: Hygiene, Tests, Coverage & Benchmarks"
 
 env:
   CARGO_TERM_COLOR: always
@@ -27,3 +27,13 @@ steps:
     working_dir: "code"
     run: "cargo audit"
     timeout_seconds: 180
+
+  - name: "Evaluate Test Suite & Line Code Coverage (cargo llvm-cov)"
+    working_dir: "code"
+    run: "cargo llvm-cov --workspace --summary-only"
+    timeout_seconds: 300
+
+  - name: "Execute Native Micro-Benchmarks (cargo bench)"
+    working_dir: "code"
+    run: "cargo bench --workspace"
+    timeout_seconds: 300

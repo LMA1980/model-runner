@@ -1,11 +1,13 @@
 # K3 Uber AI Runtime Manager
 
 [![K3 CI Status](https://hook.lma1980.duckdns.org/badges/LMA1980/model-runner/main/status.svg)](https://hook.lma1980.duckdns.org/jobs)
-[![Shields CI](https://img.shields.io/endpoint?url=https%3A%2F%2Fhook.lma1980.duckdns.org%2Fbadges%2FLMA1980%2Fmodel-runner%2Fmain%2Fshield.json)](https://hook.lma1980.duckdns.org/jobs)
+[![Pipeline Score](https://hook.lma1980.duckdns.org/badges/LMA1980/model-runner/main/score.svg)](https://hook.lma1980.duckdns.org/jobs)
+[![Code Coverage](https://hook.lma1980.duckdns.org/badges/LMA1980/model-runner/main/coverage.svg)](https://hook.lma1980.duckdns.org/jobs)
+[![Cargo Bench](https://hook.lma1980.duckdns.org/badges/LMA1980/model-runner/main/benchmark.svg)](https://hook.lma1980.duckdns.org/jobs)
 
 <p align="center">
   <a href="https://hook.lma1980.duckdns.org/jobs">
-    <img src="https://hook.lma1980.duckdns.org/cards/LMA1980/model-runner/main/card.svg" alt="K3 Native CI Branch Health Card" />
+    <img src="https://hook.lma1980.duckdns.org/cards/LMA1980/model-runner/main/card.svg" alt="K3 Native CI Factory Pipeline Score Card" />
   </a>
 </p>
 
