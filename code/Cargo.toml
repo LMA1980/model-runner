@@ -3,11 +3,19 @@ resolver = "2"
 members = [
     "core",
     "engine",
+    "engine/crates/arch-synthetic",
+    "engine/crates/kernels-rvv",
+    "engine/crates/k3-tokenizer",
+    "engine/bins/k3-diag",
     "manager",
 ]
 
 [workspace.dependencies]
 k3-core = { path = "core" }
+k3-engine = { path = "engine" }
+k3-tokenizer = { path = "engine/crates/k3-tokenizer" }
+kernels-rvv = { path = "engine/crates/kernels-rvv" }
+arch-synthetic = { path = "engine/crates/arch-synthetic" }
 
 [workspace.package]
 version = "0.1.0"
