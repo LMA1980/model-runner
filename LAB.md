@@ -66,8 +66,8 @@ When cross-compiling locally on macOS (via `cross` or Cargo), you can test and v
 
    *Cargo compiles locally, copies the binary directly to NVMe (`~/repository/model-runner/target/remote-run/`), executes it on the K3 SoC, prints the test output, and cleans up.*
 
-1. **Syncing Working Changes to NVMe**:
-   To sync your local source modifications to `pey-wail-deu` without committing:
+2. **Syncing Remote NVMe Storage via Git**:
+   To update the `pey-wail-deu` repository and submodules via `git pull` and `git submodule`:
 
    ```bash
    ./scripts/k3-sync.sh
