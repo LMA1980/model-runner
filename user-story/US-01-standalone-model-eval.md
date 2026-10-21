@@ -1,7 +1,7 @@
 # US-01: Standalone Local Model Evaluation
 
 - **Milestone**: [M1: Core Evaluation & Hardware Profiling](milestone-01.us-index.md)
-- **Status**: Active
+- **Status**: Completed
 - **GitHub Issue**: [#1](https://github.com/LMA1980/model-runner/issues/1)
 - **Feature Ref**: [Operator Diagnostic Tool](../features/diagnostic-tool.md)
 - **Spec Ref**: [Inference Worker](../specs/runtime/worker.md)

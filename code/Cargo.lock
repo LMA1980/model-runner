@@ -21,6 +21,7 @@ dependencies = [
  "k3-core",
  "k3-engine",
  "k3-tokenizer",
+ "libc",
 ]
 
 [[package]]
@@ -29,6 +30,7 @@ version = "0.1.0"
 dependencies = [
  "arch-synthetic",
  "k3-core",
+ "k3-tokenizer",
  "kernels-rvv",
  "libc",
 ]
