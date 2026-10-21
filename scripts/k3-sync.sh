@@ -133,7 +133,7 @@ fi
 # 3. Synchronize TARGET_HOST via git pull and git submodule
 echo "Updating remote repository on ${TARGET_HOST}:${REMOTE_REPO} via Git..."
 
-REMOTE_CMD="cd ${REMOTE_REPO} && git pull && git submodule sync --recursive && git submodule update --init --recursive && git submodule status"
+REMOTE_CMD="cd ${REMOTE_REPO} && git pull --no-recurse-submodules && git submodule sync --recursive && git submodule update --init --recursive && git submodule status"
 
 CURRENT_HOST="$(hostname 2>/dev/null || true)"
 if [[ "${CURRENT_HOST}" == "pey-wail-deu" || "${CURRENT_HOST}" == "${TARGET_HOST}" ]]; then
