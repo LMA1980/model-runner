@@ -1,0 +1,194 @@
+{
+  "soc": "SpacemiT K3",
+  "arch": "riscv64",
+  "mvendorid": "0x710",
+  "mmu": "sv39",
+  "total_cores": 16,
+  "total_l1i_kib": 768,
+  "total_l1d_kib": 768,
+  "total_l2_kib": 10240,
+  "total_tcm_bytes": 3145728,
+  "core_types": {
+    "X100": {
+      "uarch": "spacemit,x100",
+      "dt_compatible": "spacemit,x100",
+      "marchid": "0x8000000058000002",
+      "mimpid": "0x33d8a600",
+      "dt_cpu_ai_property": false,
+      "hmp_class": "HMP_REGULAR",
+      "min_freq_khz": 614400,
+      "max_freq_khz": 2150000,
+      "l1i_kib_per_core": 64,
+      "l1d_kib_per_core": 64,
+      "logical_cpus": [0, 1, 2, 3, 4, 5, 6, 7],
+      "cpumask_hex": "0x00ff"
+    },
+    "A100": {
+      "uarch": "spacemit,a100",
+      "dt_compatible": "spacemit,a100",
+      "marchid": "0x8000000041000002",
+      "mimpid": "0x10000000d5686200",
+      "dt_cpu_ai_property": true,
+      "hmp_class": "HMP_AI",
+      "min_freq_khz": 614400,
+      "max_freq_khz": 1800000,
+      "l1i_kib_per_core": 32,
+      "l1d_kib_per_core": 32,
+      "logical_cpus": [8, 9, 10, 11, 12, 13, 14, 15],
+      "cpumask_hex": "0xff00"
+    }
+  },
+  "clusters": [
+    {
+      "cluster_id": 0,
+      "core_type": "X100",
+      "logical_cpus": [0, 1, 2, 3],
+      "cpumask_hex": "0x000f",
+      "l2_shared_kib": 4096,
+      "tcm_shared_bytes": 0,
+      "tcm_pairs": []
+    },
+    {
+      "cluster_id": 1,
+      "core_type": "X100",
+      "logical_cpus": [4, 5, 6, 7],
+      "cpumask_hex": "0x00f0",
+      "l2_shared_kib": 4096,
+      "tcm_shared_bytes": 0,
+      "tcm_pairs": []
+    },
+    {
+      "cluster_id": 2,
+      "core_type": "A100",
+      "logical_cpus": [8, 9, 10, 11],
+      "ep_logical_indices": [0, 1, 2, 3],
+      "cpumask_hex": "0x0f00",
+      "l2_shared_kib": 1024,
+      "tcm_cluster_name": "cluster0_tcm",
+      "tcm_clock": "c2_tcm_pipe_clk",
+      "tcm_base_phys": "0x00000000",
+      "tcm_shared_bytes": 1572864,
+      "tcm_pairs": [
+        {
+          "pair_id": 0,
+          "logical_cpus": [8, 9],
+          "ep_logical_indices": [0, 1],
+          "cpumask_hex": "0x0300",
+          "ep_affinity": "0;1",
+          "dt_phandles": ["0x14", "0x15"],
+          "tcm_blocks": [
+            { "id": 0, "name": "cluster0_tcm@0", "offset": "0x00000000", "size_bytes": 393216 },
+            { "id": 1, "name": "cluster0_tcm@60000", "offset": "0x00060000", "size_bytes": 393216 }
+          ],
+          "pair_tcm_bytes": 786432
+        },
+        {
+          "pair_id": 1,
+          "logical_cpus": [10, 11],
+          "ep_logical_indices": [2, 3],
+          "cpumask_hex": "0x0c00",
+          "ep_affinity": "2;3",
+          "dt_phandles": ["0x16", "0x17"],
+          "tcm_blocks": [
+            { "id": 2, "name": "cluster0_tcm@c0000", "offset": "0x000c0000", "size_bytes": 393216 },
+            { "id": 3, "name": "cluster0_tcm@120000", "offset": "0x00120000", "size_bytes": 393216 }
+          ],
+          "pair_tcm_bytes": 786432
+        }
+      ]
+    },
+    {
+      "cluster_id": 3,
+      "core_type": "A100",
+      "logical_cpus": [12, 13, 14, 15],
+      "ep_logical_indices": [4, 5, 6, 7],
+      "cpumask_hex": "0xf000",
+      "l2_shared_kib": 1024,
+      "tcm_cluster_name": "cluster1_tcm",
+      "tcm_clock": "c3_tcm_pipe_clk",
+      "tcm_base_phys": "0x02000000",
+      "tcm_shared_bytes": 1572864,
+      "tcm_pairs": [
+        {
+          "pair_id": 2,
+          "logical_cpus": [12, 13],
+          "ep_logical_indices": [4, 5],
+          "cpumask_hex": "0x3000",
+          "ep_affinity": "4;5",
+          "dt_phandles": ["0x18", "0x19"],
+          "tcm_blocks": [
+            { "id": 4, "name": "cluster1_tcm@2000000", "offset": "0x02000000", "size_bytes": 393216 },
+            { "id": 5, "name": "cluster1_tcm@2060000", "offset": "0x02060000", "size_bytes": 393216 }
+          ],
+          "pair_tcm_bytes": 786432
+        },
+        {
+          "pair_id": 3,
+          "logical_cpus": [14, 15],
+          "ep_logical_indices": [6, 7],
+          "cpumask_hex": "0xc000",
+          "ep_affinity": "6;7",
+          "dt_phandles": ["0x1a", "0x1b"],
+          "tcm_blocks": [
+            { "id": 6, "name": "cluster1_tcm@20c0000", "offset": "0x020c0000", "size_bytes": 393216 },
+            { "id": 7, "name": "cluster1_tcm@2120000", "offset": "0x02120000", "size_bytes": 393216 }
+          ],
+          "pair_tcm_bytes": 786432
+        }
+      ]
+    }
+  ],
+  "optimal_affinity_presets": {
+    "x100": {
+      "1": [
+        { "cpu_list": "0", "cpumask_hex": "0x0001", "cpus": [0] },
+        { "cpu_list": "4", "cpumask_hex": "0x0010", "cpus": [4] }
+      ],
+      "2": [
+        { "cpu_list": "0,1", "cpumask_hex": "0x0003", "cpus": [0, 1] },
+        { "cpu_list": "4,5", "cpumask_hex": "0x0030", "cpus": [4, 5] }
+      ],
+      "3": [
+        { "cpu_list": "0-2", "cpumask_hex": "0x0007", "cpus": [0, 1, 2] },
+        { "cpu_list": "4-6", "cpumask_hex": "0x0070", "cpus": [4, 5, 6] }
+      ],
+      "4": [
+        { "cpu_list": "0-3", "cpumask_hex": "0x000f", "cpus": [0, 1, 2, 3] },
+        { "cpu_list": "4-7", "cpumask_hex": "0x00f0", "cpus": [4, 5, 6, 7] }
+      ],
+      "8": [
+        { "cpu_list": "0-7", "cpumask_hex": "0x00ff", "cpus": [0, 1, 2, 3, 4, 5, 6, 7] }
+      ]
+    },
+    "a100": {
+      "1": [
+        { "cpu_list": "8", "cpumask_hex": "0x0100", "ep_affinity": "0", "cpus": [8] },
+        { "cpu_list": "10", "cpumask_hex": "0x0400", "ep_affinity": "2", "cpus": [10] },
+        { "cpu_list": "12", "cpumask_hex": "0x1000", "ep_affinity": "4", "cpus": [12] },
+        { "cpu_list": "14", "cpumask_hex": "0x4000", "ep_affinity": "6", "cpus": [14] }
+      ],
+      "2": [
+        { "cpu_list": "8,9", "cpumask_hex": "0x0300", "ep_affinity": "0;1", "cpus": [8, 9] },
+        { "cpu_list": "10,11", "cpumask_hex": "0x0c00", "ep_affinity": "2;3", "cpus": [10, 11] },
+        { "cpu_list": "12,13", "cpumask_hex": "0x3000", "ep_affinity": "4;5", "cpus": [12, 13] },
+        { "cpu_list": "14,15", "cpumask_hex": "0xc000", "ep_affinity": "6;7", "cpus": [14, 15] }
+      ],
+      "3": [
+        { "cpu_list": "8-10", "cpumask_hex": "0x0700", "ep_affinity": "0;1;2", "cpus": [8, 9, 10] },
+        { "cpu_list": "12-14", "cpumask_hex": "0x7000", "ep_affinity": "4;5;6", "cpus": [12, 13, 14] }
+      ],
+      "4": [
+        { "cpu_list": "8-11", "cpumask_hex": "0x0f00", "ep_affinity": "0;1;2;3", "cpus": [8, 9, 10, 11] },
+        { "cpu_list": "12-15", "cpumask_hex": "0xf000", "ep_affinity": "4;5;6;7", "cpus": [12, 13, 14, 15] }
+      ],
+      "8": [
+        { "cpu_list": "8-15", "cpumask_hex": "0xff00", "ep_affinity": "0;1;2;3;4;5;6;7", "cpus": [8, 9, 10, 11, 12, 13, 14, 15] }
+      ]
+    }
+  },
+  "devices": {
+    "tcm": "/dev/tcm",
+    "ai_dma": "/dev/ai_dma",
+    "aidma_list": "/dev/aidma_list"
+  }
+}

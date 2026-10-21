@@ -31,4 +31,4 @@ Tracked via GitHub Project `model-runner`:
 ## Navigation
 
 - [Master Plan](PLAN.md) | [Intent](INTENT.md) | [Decisions](decisions/index.md)
-- [Features](features/index.md) | [Specs](specs/index.md) | [User Stories](user-story/index.md) | [Lab Environment](LAB.md)
+- [Features](features/index.md) | [Specs](specs/index.md) | [User Stories](user-story/index.md) | [Findings](findings/index.md) | [Lab Environment](LAB.md)
