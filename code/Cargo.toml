@@ -22,7 +22,7 @@ libc = "0.2"
 version = "0.1.0"
 edition = "2024"
 rust-version = "1.85"
-license = "Apache-2.0"
+license = "AGPL-3.0-only"
 
 [workspace.lints.rust]
 unsafe_op_in_unsafe_fn = "deny"
