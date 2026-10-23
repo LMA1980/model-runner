@@ -17,6 +17,9 @@ k3-tokenizer = { path = "engine/crates/k3-tokenizer" }
 kernels-rvv = { path = "engine/crates/kernels-rvv" }
 arch-synthetic = { path = "engine/crates/arch-synthetic" }
 libc = "0.2"
+rayon = "1.12"
+serde = { version = "1.0", features = ["derive"] }
+serde_json = "1.0"
 
 [workspace.package]
 version = "0.1.0"

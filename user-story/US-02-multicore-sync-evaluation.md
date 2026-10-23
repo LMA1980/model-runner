@@ -1,7 +1,7 @@
 # US-02: Multi-Core Synchronization & Jitter Evaluation
 
 - **Milestone**: [M1: Core Evaluation & Hardware Profiling](milestone-01.us-index.md)
-- **Status**: Active
+- **Status**: Completed
 - **GitHub Issue**: [#2](https://github.com/LMA1980/model-runner/issues/2)
 - **Feature Ref**: [Operator Diagnostic Tool](../features/diagnostic-tool.md)
 - **Spec Ref**: [Inference Worker](../specs/runtime/worker.md)
