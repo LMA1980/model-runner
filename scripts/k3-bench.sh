@@ -13,7 +13,7 @@ set -euo pipefail
 
 TARGET_HOST="${K3_HOST:-pey-wail-deu}"
 REMOTE_REPO="/home/lma1980/repository/model-runner"
-CORES="x100"      # Default: high-performance X100 cores 8-15 (2.15 GHz)
+CORES="x100"      # Default: high-performance X100 cores 0-7 (2.15 GHz)
 TOOLCHAIN="system"
 EXTRA_ARGS=()
 
@@ -35,14 +35,14 @@ while [[ $# -gt 0 ]]; do
 done
 
 # Core affinity mapping per SpacemiT K3 SoC topology:
-# - SpacemiT A100 cluster: Cores 0-7 (614 - 1800 MHz)
-# - SpacemiT X100 cluster: Cores 8-15 (614 - 2150 MHz, high-perf)
+# - SpacemiT X100 cluster: Cores 0-7 (614 - 2150 MHz, high-perf)
+# - SpacemiT A100 cluster: Cores 8-15 (614 - 1800 MHz)
 case "${CORES}" in
   x100)
-    TASKSET_MASK="8-15"
+    TASKSET_MASK="0-7"
     ;;
   a100)
-    TASKSET_MASK="0-7"
+    TASKSET_MASK="8-15"
     ;;
   all)
     TASKSET_MASK="0-15"

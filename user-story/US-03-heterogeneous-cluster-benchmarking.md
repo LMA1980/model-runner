@@ -1,7 +1,7 @@
 # US-03: Heterogeneous Cluster Workload Splitting & Matrix Acceleration Benchmarking
 
 - **Milestone**: [M1: Core Evaluation & Hardware Profiling](milestone-01.us-index.md)
-- **Status**: Active
+- **Status**: Completed
 - **GitHub Issue**: [#3](https://github.com/LMA1980/model-runner/issues/3)
 - **Feature Ref**: [Heterogeneous Core Affinity](../features/core-affinity.md), [Operator Diagnostic Tool](../features/diagnostic-tool.md)
 - **Spec Ref**: [Core Scheduler](../specs/runtime/scheduler.md), [Inference Worker](../specs/runtime/worker.md)

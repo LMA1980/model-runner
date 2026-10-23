@@ -15,8 +15,8 @@ ssh pey-wail-deu
 ### Hardware Specifications
 
 - **SoC**: SpacemiT K3 16-core RISC-V Heterogeneous Architecture:
-  - **Cluster 0 (Cores 0–7)**: SpacemiT A100 (614 MHz – 1800 MHz)
-  - **Cluster 1 (Cores 8–15)**: SpacemiT X100 (614 MHz – 2150 MHz, high-performance)
+  - **Cluster 0 (Cores 0–7)**: SpacemiT X100 (614 MHz – 2150 MHz, high-performance)
+  - **Cluster 1 (Cores 8–15)**: SpacemiT A100 (614 MHz – 1800 MHz)
 - **Vector Units**: RVV 1.0 (`+v`) hardware support per core
 - **Memory**: 32 GB Unified RAM + 32 GB Swap
 - **OS / Kernel**: Linux 6.18.3-generic riscv64 GNU/Linux (Bianbu / SpacemiT OS)
@@ -80,10 +80,10 @@ ______________________________________________________________________
 Use [`scripts/k3-bench.sh`](scripts/k3-bench.sh) to execute benchmarks directly on `pey-wail-deu`:
 
 ```bash
-# Run benchmark on high-performance SpacemiT X100 cores (cores 8-15)
+# Run benchmark on high-performance SpacemiT X100 cores (cores 0-7)
 ./scripts/k3-bench.sh --cores x100
 
-# Benchmark on A100 cores (cores 0-7)
+# Benchmark on A100 cores (cores 8-15)
 ./scripts/k3-bench.sh --cores a100
 
 # Benchmark using Clang/LLVM 24
