@@ -12,10 +12,11 @@
 - **Public Visibility Default**: All companion repositories and git submodules created under the `LMA1980` organization / user for the K3 platform must default to **public** visibility (`gh repo create --public`), unless explicitly instructed otherwise by the user.
 - **SSH Auth Awareness**: When running Git commands requiring interactive SSH authentication (such as SSH keys backed by 1Password or agent prompts), check or notify the user before running if timeouts or prompt denials occur.
 
-## 3. Multi-Host Synchronization & SSH Authentication (SpacemiT K3)
+## 3. Multi-Host Synchronization & Branching (feat/**)
 
+- **Feature Branches & Pull Requests (`feat/**`)**: All ongoing changes intended for `main` must use `feat/**` branches (e.g. `feat/<feature-name>`) and be merged via Pull Requests. Never commit or push directly to the `main` branch.
 - **Git-Only Synchronization (No rsync)**: Always use Git to synchronize code across multiple hosts and target hardware (`pey-wail-deu`). Do NOT use `rsync`.
-  - If changes should not be pushed to `main`, create and push to a dedicated task or feature branch (e.g. `feat/...` or `test/...`), then fetch and check out that branch on the target board.
+  - When syncing changes to the target board, push the `feat/**` branch to GitHub, then fetch and check out that branch on the target board.
 - **Patient SSH Authentication**: Remote execution on `pey-wail-deu` requires interactive 1Password Touch ID approval on macOS.
   - Waiting for user approval is expected and acceptable. Agents must wait patiently for the user to confirm biometric prompts and never treat approval latency as an error or dead state.
   - Where possible, pre-validate compilation locally (`cargo check --target riscv64gc-unknown-linux-gnu --workspace --tests`) before dispatching runs to target hardware.
@@ -31,3 +32,8 @@
 
 - **Avoid Swarm Bloat**: Do not allow multi-agent systems to spawn recursive reviewer/challenger/auditor swarms that stall on external or remote dependencies.
 - For single user stories and feature implementations, prefer focused, single-implementer or small-team workflows with programmatic test suites over bureaucratic multi-agent gate cycles.
+
+## 6. WebAssembly, Static SPA Caching & Mobile UI
+
+- **Dual-Layer Caching**: Web endpoints serving WASM/SPA frontends must implement dual-layer caching: `Cache-Control: no-cache, no-store, must-revalidate` for HTML entry points, and content-hash URL busting (`?v=<hash>`) with `no-cache, must-revalidate` for WASM/JS/CSS assets.
+- **Mobile Viewport Invariants**: Mobile web frontends must adhere to mobile viewport constraints: contained segmented controls with horizontal scrolling, responsive labels, and `font-size: 16px` on form inputs to prevent iOS Safari auto-zoom.
