@@ -375,8 +375,15 @@ dependencies = [
 name = "k3-core"
 version = "0.1.0"
 dependencies = [
+ "arrow-array",
+ "arrow-buffer",
+ "fory",
+ "fory-derive",
+ "libc",
+ "sendfd",
  "serde",
  "serde_json",
+ "zerocopy",
 ]
 
 [[package]]
@@ -430,6 +437,22 @@ name = "k3-tokenizer"
 version = "0.1.0"
 dependencies = [
  "k3-core",
+]
+
+[[package]]
+name = "k3-worker"
+version = "0.1.0"
+dependencies = [
+ "arrow-array",
+ "arrow-buffer",
+ "fory",
+ "fory-derive",
+ "k3-core",
+ "k3-engine",
+ "libc",
+ "sendfd",
+ "tokio",
+ "zerocopy",
 ]
 
 [[package]]
