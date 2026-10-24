@@ -10,6 +10,6 @@
 
 ### Inter-Process Communication
 
-- Control plane: `rkyv` serialization over Unix Domain Sockets.
-- Tensor/KV transport: Zero-copy `memfd` file descriptors passed via `SCM_RIGHTS`.
-- Out-of-process extensions: Apache Arrow IPC over UDS (ADR-019).
+- Control plane: Apache Fory (`fory`) serialization over Unix Domain Sockets (ADR-018).
+- Shared memory headers & rings: `zerocopy` `#[repr(C)]` structs in `memfd` arenas passed via `SCM_RIGHTS` (ADR-018, ADR-042).
+- Columnar tensor views & extensions: Apache Arrow buffers/IPC over `memfd` and UDS (ADR-018, ADR-019).

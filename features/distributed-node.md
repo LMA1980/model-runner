@@ -10,7 +10,7 @@
 ### Unified Local Mode (v1)
 
 - All subsystems (manager, KV holder, engines, extensions) execute on a single K3 SoC.
-- Inter-process communication via UDS (`rkyv` / Apache Arrow IPC) and zero-copy shared memory (`memfd`).
+- Inter-process communication via UDS (Apache Fory / Apache Arrow IPC) and zero-copy shared memory (`memfd` with `zerocopy` `#[repr(C)]` layouts and Arrow buffers, ADR-018, ADR-019).
 
 ### Multi-Node Mode (Future)
 

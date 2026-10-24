@@ -1,7 +1,7 @@
 # US-04: Hardware Ceiling Cost Profiling & Machine-Readable Export
 
 - **Milestone**: [M1: Core Evaluation & Hardware Profiling](milestone-01.us-index.md)
-- **Status**: Active
+- **Status**: Completed
 - **GitHub Issue**: [#4](https://github.com/LMA1980/model-runner/issues/4)
 - **Feature Ref**: [Operator Diagnostic Tool](../features/diagnostic-tool.md), [Model Tuning & Profiles](../features/tuning-profile.md)
 - **Spec Ref**: [Core Scheduler](../specs/runtime/scheduler.md)
