@@ -30,6 +30,7 @@
 
 - **Strict Commit Signing (`commit.gpgsign = true`)**: `commit.gpgsign` must **always** remain enabled (`true`). Agents must **never** attempt to disable, override, or bypass commit signing (`commit.gpgsign = false`, `--no-gpg-sign`, or modifying signing configuration is strictly forbidden under any circumstances).
 - **Feature Branches & Pull Requests (`feat/**`)**: All ongoing changes intended for `main` must use `feat/**` branches (e.g. `feat/<feature-name>`) and be merged via Pull Requests. Never commit or push directly to the `main` branch.
+  - **Mandatory Pull Request Submission (`gh pr create`)**: A task on a `feat/**` branch is **not complete** at `git push`. Before concluding any feature or user story (and as an explicit requirement in delegated `/teamwork-preview` or subagent prompts), agents **must** open the GitHub Pull Requests (`gh pr create`) for every modified git submodule (e.g., `code/core`, `code/engine`, `code/manager`) as well as the parent repository, and return the created PR URLs to the user.
 - **Git-Only Synchronization (No rsync)**: Always use Git to synchronize code across multiple hosts and target hardware (`pey-wail-deu`). Do NOT use `rsync`.
   - When syncing changes to the target board, push the `feat/**` branch to GitHub, then fetch and check out that branch on the target board.
 - **Patient SSH & Git Authentication**: Remote execution on `pey-wail-deu` and local Git commits require interactive 1Password Touch ID approval on macOS.
@@ -50,10 +51,11 @@
   - **Cluster 1 (`A100`, cores `8–15`, mask `0xFF00`)**: In-Order AI/Matrix cores (`1.80 GHz`), `VLEN = 1024` (`vlenb = 128`), supports `XSMTVDotII` (`smt.vpack.vv` `.word 0x6704102b` and `smt.vmadot` `.word 0xe304302b`, `8×16` `i8` × `8×16` `i8` → `8×8` `i32` in `v0:v1`).
 - **Conditional `/proc/set_ai_thread` Registration (SpacemiT-Patched Kernel Only)**: On the SpacemiT-patched Linux kernel (`spacemit-hmp`), any worker thread or forked capability-probe process pinning to A100 cores (`8–15`) **must** write its kernel thread ID (`SYS_gettid`) to `/proc/set_ai_thread` before calling `sched_setaffinity`. A vanilla Linux kernel does **not** have `/proc/set_ai_thread` or require this step, so code must treat `/proc/set_ai_thread` as conditional (write only when the procfs node is present).
 
-## 7. Subagent Swarm Governance
+## 7. Subagent Effort Scaling & Delegation
 
-- **Avoid Swarm Bloat**: Do not allow multi-agent systems to spawn recursive reviewer/challenger/auditor swarms that stall on external or remote dependencies.
-- For single user stories and feature implementations, prefer focused, single-implementer or small-team workflows with programmatic test suites over bureaucratic multi-agent gate cycles.
+- **Scale Effort to the Assigned Subagent Task**: Spawn as many subagents as needed for the workflow (including full `/teamwork-preview` pipelines), but scale each individual subagent's effort level and model tier (`Model` parameter in `invoke_subagent` and prompt directives) proportionally to the complexity of the specific task assigned to it:
+  - **Low effort (`flash_lite` / `flash`)**: Simple, mechanical, or bounded tasks such as renaming files, formatting, boilerplate updates, or straightforward status checks.
+  - **High effort (`pro` / `inherit`)**: Complex tasks such as refactoring the entire solution, designing core architecture, implementing low-level RVV/IME kernels, or deep multi-crate debugging.
 
 ## 8. WebAssembly, Static SPA Caching & Mobile UI
 
