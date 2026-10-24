@@ -431,6 +431,16 @@ dependencies = [
 [[package]]
 name = "k3-manager"
 version = "0.1.0"
+dependencies = [
+ "arrow-array",
+ "arrow-buffer",
+ "fory",
+ "k3-core",
+ "k3-kv",
+ "libc",
+ "tokio",
+ "zerocopy",
+]
 
 [[package]]
 name = "k3-tokenizer"
