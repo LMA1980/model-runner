@@ -1,7 +1,7 @@
 # US-05: Isolated Compute Worker Execution & Zero-Copy Tensor Dispatch
 
 - **Milestone**: [M1: Core Evaluation & Hardware Profiling](milestone-01.us-index.md)
-- **Status**: Active
+- **Status**: Completed
 - **GitHub Issue**: [#5](https://github.com/LMA1980/model-runner/issues/5)
 - **Feature Ref**: [Distributed Node Architecture](../features/distributed-node.md), [KV Cache Management](../features/kv-cache.md)
 - **Spec Ref**: [Process Model & IPC](../specs/runtime/process-model.md), [System Isolation & CGroups](../specs/runtime/isolation.md)

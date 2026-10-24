@@ -7,3 +7,6 @@
 [submodule "code/core"]
 	path = code/core
 	url = git@github.com:LMA1980/k3-core.git
+[submodule "code/kv"]
+	path = code/kv
+	url = git@github.com:LMA1980/k3-kv.git
