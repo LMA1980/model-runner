@@ -6,7 +6,7 @@
 
 - `k3-kv.service`: Minimal policy-free process holding KV memfd arenas (ADR-042).
 - Allocates per-model isolated arenas via Apache Fory control over UDS and passes fds via `SCM_RIGHTS` (ADR-018, ADR-041, ADR-043).
-- Pre-faults and locks memory via `mlock` (`LimitMEMLOCK=infinity`).
+- Pre-faults and locks memory via `mlock` within an operator-configured fixed `LimitMEMLOCK` ceiling (e.g., 28 GiB on a 32 GiB board, reserving 4 GiB for the OS and other processes; `infinity` only as a last resort, ADR-037).
 
 ### Shared Metadata & Crash Survival
 
