@@ -41,12 +41,12 @@ ______________________________________________________________________
 
 Custom toolchains built on the NVMe drive are located in `~/opt` on `pey-wail-deu`:
 
-| Toolchain                | Path                         | Description                                          |
+| Toolchain | Path | Description |
 | :----------------------- | :--------------------------- | :--------------------------------------------------- |
-| **LLVM / Clang 24**      | `~/opt/llvm-24`              | Clang/LLVM 24.0.0git with SpacemiT RVV optimizations |
-| **GCC 17**               | `~/opt/gcc-17`               | Upstream GCC 17.0.0 (experimental)                   |
-| **GCC 17 SpacemiT X100** | `~/opt/gcc-17-spacemit-x100` | GCC 17 tuned specifically for the X100 core cluster  |
-| **System Rust / Cargo**  | `/usr/bin/cargo`             | Native Rust 1.97.0 / Cargo on RISC-V                 |
+| **LLVM / Clang 24** | `~/opt/llvm-24` | Clang/LLVM 24.0.0git with SpacemiT RVV optimizations |
+| **GCC 17** | `~/opt/gcc-17` | Upstream GCC 17.0.0 (experimental) |
+| **GCC 17 SpacemiT X100** | `~/opt/gcc-17-spacemit-x100` | GCC 17 tuned specifically for the X100 core cluster |
+| **System Rust / Cargo** | `/usr/bin/cargo` | Native Rust 1.97.0 / Cargo on RISC-V |
 
 ______________________________________________________________________
 

@@ -26,7 +26,7 @@
 - **Secret Path vs. Literal Value Resolution**: Environment variables that accept either a file path or a literal secret (e.g., `GITHUB_WEBHOOK_SECRET`) must read and trim the file when given a path, and fail closed (`None`) if the path cannot be read—never fall back to using the file path string itself as the secret token.
 - **Atomic Binary Installation**: Use `sudo install -m 755 target/release/<bin> /usr/local/bin/<bin>` instead of `cp` when updating a running systemd service binary to avoid `Text file busy` (`ETXTBSY`) errors.
 
-## 4. Multi-Host Synchronization & Branching (feat/**)
+## 4. Multi-Host Synchronization & Branching (feat/\*\*)
 
 - **Strict Commit Signing (`commit.gpgsign = true`)**: `commit.gpgsign` must **always** remain enabled (`true`). Agents must **never** attempt to disable, override, or bypass commit signing (`commit.gpgsign = false`, `--no-gpg-sign`, or modifying signing configuration is strictly forbidden under any circumstances).
 - **Feature Branches & Pull Requests (`feat/**`)**: All ongoing changes intended for `main` must use `feat/**` branches (e.g. `feat/<feature-name>`) and be merged via Pull Requests. Never commit or push directly to the `main` branch.

@@ -18,7 +18,7 @@ Non-interactive CLI binary (`k3-diag`) for standalone model evaluation, multi-co
     - `op`: Matrix multiplications on `a100`, normalization and attention on `x100`.
     - `row`: Matrix output-tile rows partitioned concurrently across `x100` and `a100` in proportion to measured per-cluster throughput.
   - `--ime <on|off>`: Toggle SpacemiT IME matrix acceleration (`XSMTVDotII` / `smt.vmadot` on `a100`; rejected with exit code `10` on `x100`-only placement) (ADR-034).
-  - `-t, --threads <n>`, `--cores <mask>`, `--n-ctx <tokens>`, `--max-tokens <n>`, `--coord <spin|futex|rayon>`, `--repeat <n>` ($N \ge 3$), `--json`.
+  - `-t, --threads <n>`, `--cores <mask>`, `--n-ctx <tokens>`, `--max-tokens <n>`, `--coord <spin|futex|rayon>`, `--repeat <n>` ($N \\ge 3$), `--json`.
 - Process exit codes:
   - `0`: Evaluation and determinism verification succeeded.
   - `2`: Malformed CLI flags or invalid flag combinations (e.g., `--cluster both` without `--split`, or `--split` with a single cluster).
