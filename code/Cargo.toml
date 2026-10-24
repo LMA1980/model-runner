@@ -28,6 +28,27 @@ serde_json = "1.0"
 tokio = { version = "1.54.1", features = ["process", "rt", "net", "io-util", "sync", "macros", "signal"] }
 zerocopy = { version = "0.8.63", features = ["derive"] }
 
+[patch."https://github.com/LMA1980/k3-arch-synthetic.git"]
+arch-synthetic = { path = "arch-synthetic" }
+
+[patch."https://github.com/LMA1980/k3-core.git"]
+k3-core = { path = "core" }
+
+[patch."https://github.com/LMA1980/k3-engine.git"]
+k3-engine = { path = "engine" }
+
+[patch."https://github.com/LMA1980/k3-kernels-rvv.git"]
+kernels-rvv = { path = "kernels-rvv" }
+
+[patch."https://github.com/LMA1980/k3-kv.git"]
+k3-kv = { path = "kv" }
+
+[patch."https://github.com/LMA1980/k3-manager.git"]
+k3-manager = { path = "manager" }
+
+[patch."https://github.com/LMA1980/k3-tokenizer.git"]
+k3-tokenizer = { path = "tokenizer" }
+
 [workspace.lints.rust]
 unsafe_op_in_unsafe_fn = "deny"
 missing_debug_implementations = "warn"
