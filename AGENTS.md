@@ -18,7 +18,7 @@
 ## 3. Service Account Isolation & Daemon Deployment (`pey-wail-deu`)
 
 - **Verify Toolchains Under Target Service Account**: When configuring or debugging services running under an isolated user (e.g., `action-runner` with `ProtectHome=read-only`), always verify tool availability directly as that user (`sudo -u action-runner ...`), including:
-  - `RUSTUP_HOME` (`/var/lib/action-runner/.rustup` with `toolchains/` and `wasm32-unknown-unknown` target)
+  - `RUSTUP_HOME` (`/var/lib/action-runner/.rustup` with `toolchains/`, `wasm32-unknown-unknown` target, and `nightly` with `miri` and `rust-src`)
   - `CARGO_HOME` subcommands (`cargo-audit`, `cargo-llvm-cov`, and `advisory-db`)
   - Python user site-packages in `/var/lib/action-runner/.local` (specifically `mdformat-gfm` for GFM table formatting)
   - SSH `known_hosts` and deploy key permissions in `/var/lib/action-runner/.ssh`
