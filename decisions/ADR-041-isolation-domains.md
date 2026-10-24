@@ -12,4 +12,4 @@ Manager, engines and extensions need distinct resource limits and privileges.
 
 ## Consequences
 
-Manager restarts kill delegated engines; KV survives in k3-kv (ADR-042).
+Manager restarts kill delegated engines; KV survives in k3-kv (ADR-042). As a delayed (nice-to-have) systemd enhancement, `systemctl reload` (`ExecReload` / `SIGHUP`) is planned for `k3-manager.service` and `k3-ext@<name>.service` so operators can reload tuning profiles, budgets, and adapter configs at forward-pass boundaries without tearing down active `.../engines/<model>` workers (`k3-kv.service` remains policy-free and does not support reload).

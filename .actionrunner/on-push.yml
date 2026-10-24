@@ -37,3 +37,8 @@ steps:
     working_dir: "code"
     run: "cargo bench --workspace"
     timeout_seconds: 300
+
+  - name: "Verify Safe Execution & Undefined Behavior via Miri (cargo +nightly miri test)"
+    working_dir: "code"
+    run: "cargo +nightly miri test -p k3-core -p kernels-rvv -p arch-synthetic -p k3-tokenizer --lib"
+    timeout_seconds: 300
