@@ -1,21 +1,21 @@
 [submodule "code/manager"]
 	path = code/manager
-	url = git@github.com:LMA1980/k3-manager.git
+	url = https://github.com/LMA1980/k3-manager.git
 [submodule "code/engine"]
 	path = code/engine
-	url = git@github.com:LMA1980/k3-engine.git
+	url = https://github.com/LMA1980/k3-engine.git
 [submodule "code/core"]
 	path = code/core
-	url = git@github.com:LMA1980/k3-core.git
+	url = https://github.com/LMA1980/k3-core.git
 [submodule "code/kv"]
 	path = code/kv
-	url = git@github.com:LMA1980/k3-kv.git
+	url = https://github.com/LMA1980/k3-kv.git
 [submodule "code/arch-synthetic"]
 	path = code/arch-synthetic
-	url = git@github.com:LMA1980/k3-arch-synthetic.git
+	url = https://github.com/LMA1980/k3-arch-synthetic.git
 [submodule "code/kernels-rvv"]
 	path = code/kernels-rvv
-	url = git@github.com:LMA1980/k3-kernels-rvv.git
+	url = https://github.com/LMA1980/k3-kernels-rvv.git
 [submodule "code/tokenizer"]
 	path = code/tokenizer
-	url = git@github.com:LMA1980/k3-tokenizer.git
+	url = https://github.com/LMA1980/k3-tokenizer.git
