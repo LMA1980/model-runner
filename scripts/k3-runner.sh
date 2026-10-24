@@ -19,6 +19,12 @@ REMOTE_BINARY="${REMOTE_NVME_DIR}/${BINARY_NAME}"
 # Shift off binary path so remaining arguments (flags, test filters) are preserved
 shift
 
+# If invoked under cargo-miri, delegate directly to the Miri runner
+if [[ -n "${MIRI_SYSROOT:-}" || -n "${MIRI:-}" || "${RUSTC_WRAPPER:-}" == *"cargo-miri"* ]]; then
+  CARGO_MIRI_BIN="${RUSTC_WRAPPER:-cargo-miri}"
+  exec "${CARGO_MIRI_BIN}" runner "${BINARY_PATH}" "$@"
+fi
+
 # If running natively on pey-wail-deu itself, execute directly without SSH
 CURRENT_HOST="$(hostname 2>/dev/null || true)"
 if [[ "${CURRENT_HOST}" == "pey-wail-deu" || "${CURRENT_HOST}" == "${TARGET_HOST}" ]]; then
