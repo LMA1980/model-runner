@@ -19,6 +19,7 @@
 - Source adapters operate as isolated extensions that hold external network access and repository credentials outside the core control and compute domains.
 - Every source extension supports a standard lifecycle contract: authentication (`auth`), repository search (`search`), version listing (`list`), and weight acquisition (`pull`).
 - Incoming downloads are written to a staging area first and promoted atomically into the content-addressed store only after their cryptographic digest and integrity are verified.
+- In multi-node topologies, the control plane can distribute preprocessed, IME-repacked model tensors over the network to K3 compute nodes using Apache Arrow Flight, eliminating redundant downloads, conversion overhead, and eMMC flash wear on target hardware.
 
 ## Core System Assertions
 
@@ -34,3 +35,7 @@
   - **Given** repository credentials configured for an external source extension,
   - **When** model compute workers and the core scheduler execute,
   - **Then** neither the compute workers nor the core scheduler possess external network access or direct access to external repository credentials.
+- **Scenario 4: Distributed model migration to target nodes via Apache Arrow Flight**
+  - **Given** an ingested and IME-repacked model available on the control plane host,
+  - **When** the operator provisions or migrates the model to one or more remote K3 accelerator nodes,
+  - **Then** `k3-manager` streams the pre-tiled tensor record batches to the node bridge (`k3-rpcbridge`) via Apache Arrow Flight, and the receiving node populates an in-memory `memfd` and locks it in RAM without requiring local external repository authentication or on-board format conversion.
