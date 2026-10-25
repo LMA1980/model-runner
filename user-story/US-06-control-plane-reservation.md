@@ -29,3 +29,20 @@
   - **Given** a compute or control task that becomes unresponsive or enters a runaway loop,
   - **When** the health supervisor detects the stalled workload,
   - **Then** reserved spare control capacity remains available to preempt, terminate, and recover the runaway task without requiring a physical board reboot.
+
+## Engineering Breakdown
+
+- [**US-06.1**: Control Plane Core Reservation & Cgroup/Affinity Domain Partitioning (#65)](https://github.com/LMA1980/model-runner/issues/65)
+  - [**US-06.1.1**: Implement `ControlPlaneCapacityConfig` & `X100` Control/Spare/Compute Core Resolver (#69)](https://github.com/LMA1980/model-runner/issues/69)
+  - [**US-06.1.2**: Implement Cgroup v2 Leaf Domain Placement & OS Thread Affinity Fallback (#70)](https://github.com/LMA1980/model-runner/issues/70)
+  - [**US-06.1.3**: Enforce Compute Worker Placement Cap & Multi-Thread Affinity Guard (#71)](https://github.com/LMA1980/model-runner/issues/71)
+- [**US-06.2**: Control-Plane Orchestration Pipeline & Tokenization Responsiveness Under Compute Saturation (#66)](https://github.com/LMA1980/model-runner/issues/66)
+  - [**US-06.2.1**: Integrate `k3-tokenizer` & Chat Template Orchestration into `k3-manager` (#72)](https://github.com/LMA1980/model-runner/issues/72)
+  - [**US-06.2.2**: Implement Control-Plane Token-ID Prefix Radix Index & Block Lookup (#73)](https://github.com/LMA1980/model-runner/issues/73)
+  - [**US-06.2.3**: Implement Reserved Active Control Thread Pool & Non-Blocking Admin/Queue Status Plane (#74)](https://github.com/LMA1980/model-runner/issues/74)
+- [**US-06.3**: Health Supervisor, Spare Recovery Thread & Runaway Workload Intervention (#67)](https://github.com/LMA1980/model-runner/issues/67)
+  - [**US-06.3.1**: Implement Deadline-Bounded UDS I/O & Worker Heartbeat/Pass Timeout Detection (#75)](https://github.com/LMA1980/model-runner/issues/75)
+  - [**US-06.3.2**: Implement Dedicated Spare Recovery Watchdog Thread & Runaway Task/Worker Preemption (#76)](https://github.com/LMA1980/model-runner/issues/76)
+- [**US-06.4**: End-to-End Integration Verification for Control Responsiveness & Runaway Recovery (#68)](https://github.com/LMA1980/model-runner/issues/68)
+  - [**US-06.4.1**: Implement US-06 Scenario 1 E2E Test (Control Responsiveness Under 100% Compute Saturation) (#77)](https://github.com/LMA1980/model-runner/issues/77)
+  - [**US-06.4.2**: Implement US-06 Scenario 2 E2E Test (Runaway Workload Preemption & Recovery via Spare Capacity) (#78)](https://github.com/LMA1980/model-runner/issues/78)
