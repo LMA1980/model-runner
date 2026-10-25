@@ -20,12 +20,12 @@ The SpacemiT K3 has **16 RISC-V 64-bit cores** organized into **4 clusters of 4 
 
 ### 1.1 Cluster & Core-Pair Breakdown
 
-| Cluster | Logical CPUs | Core Type (`uarch`) | `marchid` / `mimpid` | Max Freq | L1I / L1D (per core) | Shared L2 (per 4-core cluster) | Coupled TCM (`tcm@00000000`) |
+| Cluster       | Logical CPUs | Core Type (`uarch`) | `marchid` / `mimpid`                        | Max Freq | L1I / L1D (per core) | Shared L2 (per 4-core cluster)    | Coupled TCM (`tcm@00000000`)                                                                                                                                        |
 | :------------ | :----------- | :------------------ | :------------------------------------------ | :------- | :------------------- | :-------------------------------- | :------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| **Cluster 0** | `cpu0–3` | `spacemit,x100` | `0x8000000058000002` / `0x33d8a600` | 2150 MHz | `64 KiB` / `64 KiB` | **`4,096 KiB` (4 MiB)** (`0–3`) | None |
-| **Cluster 1** | `cpu4–7` | `spacemit,x100` | `0x8000000058000002` / `0x33d8a600` | 2150 MHz | `64 KiB` / `64 KiB` | **`4,096 KiB` (4 MiB)** (`4–7`) | None |
-| **Cluster 2** | `cpu8–11` | `spacemit,a100` | `0x8000000041000002` / `0x10000000d5686200` | 1800 MHz | `32 KiB` / `32 KiB` | **`1,024 KiB` (1 MiB)** (`8–11`) | **`1,536 KiB` (1.5 MiB)** (`cluster0_tcm` @ `0x00000000`, `c2_tcm_pipe_clk`):<br>• `768 KiB` (`2×384K`) → **`cpu8,9`**<br>• `768 KiB` (`2×384K`) → **`cpu10,11`** |
-| **Cluster 3** | `cpu12–15` | `spacemit,a100` | `0x8000000041000002` / `0x10000000d5686200` | 1800 MHz | `32 KiB` / `32 KiB` | **`1,024 KiB` (1 MiB)** (`12–15`) | **`1,536 KiB` (1.5 MiB)** (`cluster1_tcm` @ `0x02000000`, `c3_tcm_pipe_clk`):<br>• `768 KiB` (`2×384K`) → **`cpu12,13`**<br>• `768 KiB` (`2×384K`) → **`cpu14,15`** |
+| **Cluster 0** | `cpu0–3`     | `spacemit,x100`     | `0x8000000058000002` / `0x33d8a600`         | 2150 MHz | `64 KiB` / `64 KiB`  | **`4,096 KiB` (4 MiB)** (`0–3`)   | None                                                                                                                                                                |
+| **Cluster 1** | `cpu4–7`     | `spacemit,x100`     | `0x8000000058000002` / `0x33d8a600`         | 2150 MHz | `64 KiB` / `64 KiB`  | **`4,096 KiB` (4 MiB)** (`4–7`)   | None                                                                                                                                                                |
+| **Cluster 2** | `cpu8–11`    | `spacemit,a100`     | `0x8000000041000002` / `0x10000000d5686200` | 1800 MHz | `32 KiB` / `32 KiB`  | **`1,024 KiB` (1 MiB)** (`8–11`)  | **`1,536 KiB` (1.5 MiB)** (`cluster0_tcm` @ `0x00000000`, `c2_tcm_pipe_clk`):<br>• `768 KiB` (`2×384K`) → **`cpu8,9`**<br>• `768 KiB` (`2×384K`) → **`cpu10,11`**   |
+| **Cluster 3** | `cpu12–15`   | `spacemit,a100`     | `0x8000000041000002` / `0x10000000d5686200` | 1800 MHz | `32 KiB` / `32 KiB`  | **`1,024 KiB` (1 MiB)** (`12–15`) | **`1,536 KiB` (1.5 MiB)** (`cluster1_tcm` @ `0x02000000`, `c3_tcm_pipe_clk`):<br>• `768 KiB` (`2×384K`) → **`cpu12,13`**<br>• `768 KiB` (`2×384K`) → **`cpu14,15`** |
 
 ### 1.2 Shared RISC-V ISA Extensions (`/proc/cpuinfo`)
 
@@ -42,16 +42,16 @@ ______________________________________________________________________
 
 In `/proc/device-tree/soc/tcm@00000000` (`compatible = "spacemit,k1-tcm"`), the K3 exposes **8 TCM blocks of `0x60000` bytes (`384 KiB` = `393,216` bytes) each**, totaling **`3,145,728` bytes (`3 MiB`)**, accompanied by `/dev/tcm` (misc `10:260`), `/dev/ai_dma` (`239:0`), and `/dev/aidma_list` (`238:0`):
 
-| TCM Block ID | DT Node Name | Physical Address Offset | Block Size | Bound CPU DT Phandles | Bound Logical CPUs (A100 Pair) | `SPACEMIT_EP` Logical Pair |
+| TCM Block ID | DT Node Name           | Physical Address Offset |      Block Size       | Bound CPU DT Phandles | Bound Logical CPUs (A100 Pair) | `SPACEMIT_EP` Logical Pair |
 | :----------: | :--------------------- | :---------------------: | :-------------------: | :-------------------: | :----------------------------: | :------------------------: |
-| **0** | `cluster0_tcm@0` | `0x00000000` | `0x60000` (`384 KiB`) | `<0x14 0x15>` | **`cpu8, cpu9`** (Cluster 2) | `"0;1"` |
-| **1** | `cluster0_tcm@60000` | `0x00060000` | `0x60000` (`384 KiB`) | `<0x14 0x15>` | **`cpu8, cpu9`** (Cluster 2) | `"0;1"` |
-| **2** | `cluster0_tcm@c0000` | `0x000c0000` | `0x60000` (`384 KiB`) | `<0x16 0x17>` | **`cpu10, cpu11`** (Cluster 2) | `"2;3"` |
-| **3** | `cluster0_tcm@120000` | `0x00120000` | `0x60000` (`384 KiB`) | `<0x16 0x17>` | **`cpu10, cpu11`** (Cluster 2) | `"2;3"` |
-| **4** | `cluster1_tcm@2000000` | `0x02000000` | `0x60000` (`384 KiB`) | `<0x18 0x19>` | **`cpu12, cpu13`** (Cluster 3) | `"4;5"` |
-| **5** | `cluster1_tcm@2060000` | `0x02060000` | `0x60000` (`384 KiB`) | `<0x18 0x19>` | **`cpu12, cpu13`** (Cluster 3) | `"4;5"` |
-| **6** | `cluster1_tcm@20c0000` | `0x020c0000` | `0x60000` (`384 KiB`) | `<0x1a 0x1b>` | **`cpu14, cpu15`** (Cluster 3) | `"6;7"` |
-| **7** | `cluster1_tcm@2120000` | `0x02120000` | `0x60000` (`384 KiB`) | `<0x1a 0x1b>` | **`cpu14, cpu15`** (Cluster 3) | `"6;7"` |
+|    **0**     | `cluster0_tcm@0`       |      `0x00000000`       | `0x60000` (`384 KiB`) |     `<0x14 0x15>`     |  **`cpu8, cpu9`** (Cluster 2)  |          `"0;1"`           |
+|    **1**     | `cluster0_tcm@60000`   |      `0x00060000`       | `0x60000` (`384 KiB`) |     `<0x14 0x15>`     |  **`cpu8, cpu9`** (Cluster 2)  |          `"0;1"`           |
+|    **2**     | `cluster0_tcm@c0000`   |      `0x000c0000`       | `0x60000` (`384 KiB`) |     `<0x16 0x17>`     | **`cpu10, cpu11`** (Cluster 2) |          `"2;3"`           |
+|    **3**     | `cluster0_tcm@120000`  |      `0x00120000`       | `0x60000` (`384 KiB`) |     `<0x16 0x17>`     | **`cpu10, cpu11`** (Cluster 2) |          `"2;3"`           |
+|    **4**     | `cluster1_tcm@2000000` |      `0x02000000`       | `0x60000` (`384 KiB`) |     `<0x18 0x19>`     | **`cpu12, cpu13`** (Cluster 3) |          `"4;5"`           |
+|    **5**     | `cluster1_tcm@2060000` |      `0x02060000`       | `0x60000` (`384 KiB`) |     `<0x18 0x19>`     | **`cpu12, cpu13`** (Cluster 3) |          `"4;5"`           |
+|    **6**     | `cluster1_tcm@20c0000` |      `0x020c0000`       | `0x60000` (`384 KiB`) |     `<0x1a 0x1b>`     | **`cpu14, cpu15`** (Cluster 3) |          `"6;7"`           |
+|    **7**     | `cluster1_tcm@2120000` |      `0x02120000`       | `0x60000` (`384 KiB`) |     `<0x1a 0x1b>`     | **`cpu14, cpu15`** (Cluster 3) |          `"6;7"`           |
 
 ______________________________________________________________________
 

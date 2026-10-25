@@ -1,31 +1,83 @@
-version: "1"
+version: "2"
 name: "K3 Merge Integration & Local Artifact Publish"
 
 env:
   CARGO_TERM_COLOR: always
 
-steps:
-  - name: "Build Workspace Release"
-    working_dir: "code"
-    run: "cargo build --workspace --release"
-    timeout_seconds: 600
-
-  - name: "Evaluate Test Suite & Line Code Coverage (cargo llvm-cov)"
-    working_dir: "code"
-    run: "cargo llvm-cov --workspace --release --summary-only"
+stages:
+  - id: docs-format
+    name: "Verify Markdown Specification Formatting (mdformat)"
+    tags: ["docs"]
+    threads: 2
+    run: "./scripts/format_docs.sh --check"
     timeout_seconds: 300
 
-  - name: "Execute Native Micro-Benchmarks (cargo bench)"
-    working_dir: "code"
-    run: "cargo bench --workspace"
-    timeout_seconds: 600
+  - id: arch-integrity
+    name: "Verify Architectural Index Integrity"
+    tags: ["docs"]
+    depends_on: ["docs-format"]
+    threads: 2
+    run: "test -f decisions/index.md && test -f specs/index.md && test -f features/index.md && test -f user-story/index.md"
+    timeout_seconds: 60
 
-  - name: "Publish Artifacts Locally"
+  - id: fmt-check
+    name: "Verify Rust Formatting (cargo fmt)"
     working_dir: "code"
-    run: |
-      mkdir -p /home/lma1980/repository/dist/local/bin
-      if [ -d target/release ]; then
-        find target/release -maxdepth 1 -type f -executable -exec cp -v {} /home/lma1980/repository/dist/local/bin/ \;
-      fi
-      echo "Local build published to /home/lma1980/repository/dist/local/bin"
+    tags: ["fmt"]
+    threads: 2
+    run: "cargo fmt --check"
     timeout_seconds: 120
+
+  - id: clippy-check
+    name: "Verify Rust Linter & Clippy Rules (cargo clippy)"
+    working_dir: "code"
+    tags: ["clippy"]
+    depends_on: ["fmt-check"]
+    threads: 4
+    run: "cargo clippy --workspace --all-targets -- -D warnings"
+    timeout_seconds: 300
+
+  - id: audit-check
+    name: "Verify Dependencies Security Advisories (cargo audit)"
+    working_dir: "code"
+    tags: ["audit"]
+    depends_on: ["fmt-check"]
+    threads: 2
+    run: "cargo audit"
+    timeout_seconds: 180
+
+  - id: coverage-check
+    name: "Evaluate Test Suite & Line Code Coverage (cargo llvm-cov)"
+    working_dir: "code"
+    tags: ["k3"]
+    depends_on: ["clippy-check", "audit-check"]
+    threads: 6
+    run: "cargo llvm-cov --workspace --summary-only"
+    timeout_seconds: 900
+
+  - id: bench-run
+    name: "Execute Native Micro-Benchmarks (cargo bench)"
+    working_dir: "code"
+    tags: ["k3"]
+    depends_on: ["coverage-check"]
+    threads: 6
+    run: "cargo bench --workspace"
+    timeout_seconds: 900
+
+  - id: miri-check
+    name: "Verify Safe Execution & Undefined Behavior via Miri (cargo +nightly miri test)"
+    working_dir: "code"
+    tags: ["k3"]
+    depends_on: ["coverage-check"]
+    threads: 6
+    run: "cargo +nightly miri test -p k3-core -p kernels-rvv -p arch-synthetic -p k3-tokenizer --lib"
+    timeout_seconds: 900
+
+  - id: build-release
+    name: "Build Workspace Release"
+    working_dir: "code"
+    tags: ["k3"]
+    depends_on: ["bench-run", "miri-check"]
+    threads: 6
+    run: "cargo build --workspace --release"
+    timeout_seconds: 600

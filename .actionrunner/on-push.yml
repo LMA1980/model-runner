@@ -51,24 +51,24 @@ stages:
     working_dir: "code"
     tags: ["k3"]
     depends_on: ["clippy-check", "audit-check"]
-    threads: 2
+    threads: 6
     run: "cargo llvm-cov --workspace --summary-only"
-    timeout_seconds: 300
+    timeout_seconds: 900
 
   - id: bench-run
     name: "Execute Native Micro-Benchmarks (cargo bench)"
     working_dir: "code"
     tags: ["k3"]
     depends_on: ["coverage-check"]
-    threads: 2
+    threads: 6
     run: "cargo bench --workspace"
-    timeout_seconds: 300
+    timeout_seconds: 900
 
   - id: miri-check
     name: "Verify Safe Execution & Undefined Behavior via Miri (cargo +nightly miri test)"
     working_dir: "code"
     tags: ["k3"]
     depends_on: ["coverage-check"]
-    threads: 2
+    threads: 6
     run: "cargo +nightly miri test -p k3-core -p kernels-rvv -p arch-synthetic -p k3-tokenizer --lib"
-    timeout_seconds: 300
+    timeout_seconds: 900
