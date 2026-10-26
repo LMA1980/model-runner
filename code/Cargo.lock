@@ -433,6 +433,7 @@ dependencies = [
  "fory",
  "k3-core",
  "k3-kv",
+ "k3-tokenizer",
  "libc",
  "tokio",
  "zerocopy",
