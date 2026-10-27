@@ -435,6 +435,8 @@ dependencies = [
  "k3-kv",
  "k3-tokenizer",
  "libc",
+ "serde",
+ "serde_json",
  "tokio",
  "zerocopy",
 ]
