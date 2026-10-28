@@ -61,3 +61,7 @@
 
 - **Dual-Layer Caching**: Web endpoints serving WASM/SPA frontends must implement dual-layer caching: `Cache-Control: no-cache, no-store, must-revalidate` for HTML entry points, and content-hash URL busting (`?v=<hash>`) with `no-cache, must-revalidate` for WASM/JS/CSS assets.
 - **Mobile Viewport Invariants**: Mobile web frontends must adhere to mobile viewport constraints: contained segmented controls with horizontal scrolling, responsive labels, and `font-size: 16px` on form inputs to prevent iOS Safari auto-zoom.
+
+## 9. Rust: usize vs u32
+
+Use usize for indexing collections, array lengths, or anything interacting with memory allocation; use u32 for domain-specific domain data, math, IDs, counters, or network packets where the size must be exactly 32 bits regardless of the computer running the code.

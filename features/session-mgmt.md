@@ -14,6 +14,6 @@
 
 ### Persistence & Resumption
 
-- Operational state backed by SQLite: metadata + last prompt & result per session for diagnostic replay (ADR-003).
+- Operational state backed by DuckDB: metadata + last prompt & result per session for diagnostic replay (ADR-003).
 - Resumable computation survives engine restarts and client disconnects in RAM (ADR-026).
 - Reboot persistence of KV caches deferred to future warm-restart milestone.

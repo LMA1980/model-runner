@@ -4,7 +4,7 @@
 
 ### Process Architecture
 
-- `k3-manager`: Supervises runtime, owns tokenization, session state, and SQLite (ADR-018, ADR-025).
+- `k3-manager`: Supervises runtime, owns tokenization, session state, and DuckDB (ADR-003, ADR-018, ADR-025).
 - `k3-kv`: Independent KV memory holder (ADR-042).
 - `k3-engine`: Isolated worker processes per model placement (ADR-018, ADR-043).
 
