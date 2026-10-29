@@ -70,6 +70,7 @@ stages:
     tags: ["k3"]
     depends_on: ["docs-format", "arch-integrity", "fmt-check", "clippy-check", "audit-check", "coverage-check", "miri-check"]
     threads: 6
+    exclusive: true
     run: "cargo bench --workspace"
     timeout_seconds: 900
 
