@@ -8,7 +8,7 @@ if [[ "${1:-}" == "--check" ]]; then
 fi
 
 # Collect all repository markdown files excluding submodules and git
-FILES=$(find . -name "*.md" -not -path "*/code/*" -not -path "*/.git/*" | sort)
+FILES=$(find . -name "*.md" -not -path "*/code/*" -not -path "*/.git/*" -not -path "*/.agents/*" | sort)
 
 if [ "$CHECK_ONLY" = true ]; then
     echo "Checking Markdown formatting with mdformat..."
