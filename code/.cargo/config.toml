@@ -6,3 +6,4 @@ runner = "../scripts/k3-runner.sh"
 
 [alias]
 k3-test = "test --target riscv64gc-unknown-linux-gnu"
+
